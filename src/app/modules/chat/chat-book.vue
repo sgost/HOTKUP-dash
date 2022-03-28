@@ -1307,7 +1307,6 @@ export default {
         });
     },
     handleClickEvents (event) {
-      alert('hi');
 
       event.stopPropagation();
       event.preventDefault();

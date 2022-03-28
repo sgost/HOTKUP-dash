@@ -1,5 +1,5 @@
 <template>
-  <div class="app_container" style="background: red;grid-template-columns:1fr 2fr 5fr;display: flex;box-sizing: border-box;width: 100%;">
+  <div class="app_container" style="background: white;grid-template-columns:1fr 2fr 5fr;display: flex;box-sizing: border-box;width: 100%;">
 
     <div id="appSideMenu" class="app-side-menu" style="xxflex-basis:10%;">
         <div vv-if="loggedInUser.isInformationFetchComplete" id="appSideMenuContent" class="app-side-menu-content">

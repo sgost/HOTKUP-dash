@@ -33,8 +33,15 @@
           <div style="display: flex;column-gap: 2px;color: #6f6f6f;"><img src="resources/images/subtask.svg" style="height: 12px;width: 15px;color: #d6d6d6;filter: opacity(0.65);"><sub>{{item.subTaskIds.length}}</sub></div>
           <div style="display: flex;column-gap: 2px;color: #6f6f6f;"><img src="resources/images/priority.svg" style="height:12px;width:15px"></div>
         </div>
-        <div class="list-item-menu">
+        <div id="pop_main">
+        <div class="list-item-menu" @click="indToggle = item.sno">
           <span uk-icon="icon:more-vertical;ratio:0.55;"></span>
+        </div>
+        <div id="pop_container" v-show="indToggle === item.sno">
+          <span @click="popAlert(item.sno)">User Id</span>
+          <span @click="popAlert(item.sno)">User Id</span>
+          <span @click="popAlert(item.sno)">User Id</span>
+        </div>
         </div>
       </div>
       <div class="list-item-row-2 task-name" style="place-items: flex-start flex-start;overflow-x: hidden;">
@@ -94,6 +101,9 @@
         </div>
       </div>
     </div>
+      <!-- <div id="alert_cont" >
+        <p>Task# <span>{{item.sno}}</span></p>
+      </div> -->
 </template>
 <script>
 
@@ -108,14 +118,18 @@
     utilsMixinLib,
     uiListMixinLib
   ],
-  props: ['id', 'appliedTaskFilter', 'item', 'uniqueComponentId', 'selectedTask', 'loggedInUser', 'embeddingViewName', 'taskIdToBeViewed', 'isModalViewed'],
+  props: ['id', 'd', 'item', 'uniqueComponentId', 'selectedTask', 'loggedInUser', 'embeddingViewName', 'taskIdToBeViewed', 'isModalViewed'],
   data: function () {
     return {
-
+      popShow: false,
+      indToggle: 0
     };
   },
   methods: {
-
+popAlert: function (e) {
+   this.indToggle = 0;
+   alert(e);
+}
   },
   created: function () {},
   computed: {
@@ -139,5 +153,58 @@
 </script>
 
 <style scoped>
-
+#pop_main {
+  position: relative;
+  background: blue;
+  height: 100%;
+}
+#pop_main .list-item-menu {
+  width: 20px;
+  height: 20px;
+  background: transparent;
+}
+#pop_main #pop_container {
+    position: absolute;
+    background: white;
+    top: 25px;
+    width: 203px;
+    right: -20px;
+    border-radius: 3px;
+    z-index: 10;
+    box-shadow: rgb(0 0 0 / 0%) 0px 2px 5px 0px, rgb(0 0 0 / 13%) 0px 2px 10px 0px;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    padding: 10px 0;
+}
+#pop_main #pop_container span {
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%
+}
+#pop_main #pop_container span:hover {
+    font-size: 0.75rem;
+    background: #ececec;
+}
+/* #alert_cont {
+      background: purple;
+    position: absolute;
+    top: 10%;
+    display: flex;
+    color: white;
+    align-items: center;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 6px;
+    right: 10px;
+    z-index: 10;
+    width: 286px;
+    height: 59px;
+    box-shadow: rgb(0 0 0 / 0%) 0px 2px 5px 0px, rgb(0 0 0 / 13%) 0px 2px 10px 0px;
+}
+#alert_cont p {
+      line-height: 0;
+    margin: 0 0 0 20px;
+    font-size: 21px;
+} */
 </style>
