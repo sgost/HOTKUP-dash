@@ -377,6 +377,8 @@
             </div> -->
 
             <div class="chat_conversations_context_menu"></div>
+            
+            <div class="chat_conversations_context_menus"></div>
             <div class="chat_msg_item_context_menu"></div>
       </div>
       <div id="loading_spinner" style="display: flex;opacity:1;transition:0.25s linear;position:absolute;top:0px;right:0px;left:0px;bottom:0px;align-items:center;justify-content:center;z-index: 2;">

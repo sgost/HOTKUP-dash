@@ -1308,6 +1308,8 @@ export default {
     },
     handleClickEvents (event) {
 
+      console.log('eventeventevent', event);
+
       event.stopPropagation();
       event.preventDefault();
       console.log(event.target);
@@ -1354,6 +1356,8 @@ export default {
 
     },
     closeCategoryItemContextMenu (event) {
+      alert('closeCategoryItemContextMenu');
+
       console.log("inside close context menu", event);
 
       // If the mousedown happened on the context-menu item, then don't close the menu.
@@ -1369,6 +1373,7 @@ export default {
       }
     },
     openCategoryItemContextMenu (event) {
+      alert('openCategoryItemContextMenu');
 
       // If target is other than the context-menu trigger, then ignore it.
       if (!event.target.classList.contains("contextMenuTrigger")) {

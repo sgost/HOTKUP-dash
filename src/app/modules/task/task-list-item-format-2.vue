@@ -34,16 +34,22 @@
           <div style="display: flex;column-gap: 2px;color: #6f6f6f;"><img src="resources/images/priority.svg" style="height:12px;width:15px"></div>
         </div>
         <div id="pop_main">
-        <div class="list-item-menu" @click="indToggle = item.sno">
+        <div class="list-item-menu contextMenuTrigger" xv-on:mousedown="closeCategoryItemContextMenu($event)"
+                     v-on:click="someMethod">
           <span uk-icon="icon:more-vertical;ratio:0.55;"></span>
         </div>
-        <div id="pop_container" v-show="indToggle === item.sno">
-          <span @click="popAlert(item.sno)">User Id</span>
-          <span @click="popAlert(item.sno)">User Id</span>
-          <span @click="popAlert(item.sno)">User Id</span>
-        </div>
-        </div>
+      <teleport to=".chat_conversations_context_menus">
+      <div class="context-menu" id="chatConversationContextMenus"  v-bind:style="{'top': styley, 'left': stylex, 'display': indToggle === item.sno ? 'flex' : 'none'}">
+          <div style="display: flex;flex-direction: column; width: 100%, font-size: 0.6rem;" id="popmenu_container">
+            <div style="user-select:none" id="popmenu" class="context-menu-action-1" v-on:click="pop_over(item.sno)">Add Participant</div>
+            <div style="user-select:none" id="popmenu" class="context-menu-action-1" v-on:click="pop_over(item.sno)">Add Participant</div>
+            <div style="user-select:none" id="popmenu" class="context-menu-action-1" v-on:click="pop_over(item.sno)">Add Participant</div>
+            <!-- <div style="padding:5px;user-select:none" class="context-menu-action-1" v-on:click="onContextMenuActionClick(1)">Delete Conversation</div> -->
+          </div>
       </div>
+    </teleport>
+        </div>
+      </div> 
       <div class="list-item-row-2 task-name" style="place-items: flex-start flex-start;overflow-x: hidden;">
         <p style="margin: 0 0 0px 0;text-overflow: ellipsis;overflow-x: hidden;white-space: nowrap;">{{item.name}}</p>
       </div>
@@ -122,14 +128,33 @@
   data: function () {
     return {
       popShow: false,
-      indToggle: 0
+      indToggle: 0,
+      stylex: 0,
+      styley: '500px'
     };
   },
   methods: {
-popAlert: function (e) {
-   this.indToggle = 0;
-   alert(e);
-}
+    someMethod: function (event) {
+            const position = {
+        x: event.clientX, // - contextMenu.getBoundingClientRect().width,
+        y: event.clientY + 10
+      };
+      if (this.indToggle === 0) {
+this.stylex = position.x - 0 + "px";
+      this.styley = position.y + "px";
+      } else {
+        this.stylex = 0;
+      this.styley = 0;
+      }
+      this.indToggle = this.item.sno;
+    },
+     hide: function () {
+ this.indToggle = 0;
+    },
+    pop_over: function (e) {
+      this.indToggle = 0;
+      alert(e);
+    }
   },
   created: function () {},
   computed: {
@@ -155,7 +180,6 @@ popAlert: function (e) {
 <style scoped>
 #pop_main {
   position: relative;
-  background: blue;
   height: 100%;
 }
 #pop_main .list-item-menu {
@@ -163,29 +187,37 @@ popAlert: function (e) {
   height: 20px;
   background: transparent;
 }
-#pop_main #pop_container {
-    position: absolute;
-    background: white;
-    top: 25px;
-    width: 203px;
-    right: -20px;
-    border-radius: 3px;
-    z-index: 10;
-    box-shadow: rgb(0 0 0 / 0%) 0px 2px 5px 0px, rgb(0 0 0 / 13%) 0px 2px 10px 0px;
-    border: 1px solid #e0e0e0;
-    overflow: hidden;
-    padding: 10px 0;
-}
-#pop_main #pop_container span {
-    font-size: 0.75rem;
-    cursor: pointer;
-    padding: 10px;
-    width: 100%
-}
-#pop_main #pop_container span:hover {
-    font-size: 0.75rem;
-    background: #ececec;
-}
+    .context-menu{
+      position: fixed;
+      width: 180px;
+      overflow: hidden;
+      z-index: 10;
+      background: white;
+      top: 10px;
+          border-radius: 6px;
+          padding: 5px 0;
+       box-shadow: rgb(0 0 0 / 0%) 0px 2px 5px 0px, rgb(0 0 0 / 13%) 0px 2px 10px 0px;
+    }
+
+    .context-menu.is-open{
+      opacity:1;
+      transform:scale(1);
+      pointer-events:all;
+    }
+
+     .context-menu #popmenu_container {
+      width: 100%;
+    }
+
+    .context-menu #popmenu {
+      width: 100%;
+      padding: 5px 10px;
+      font-size: 15px;
+    }
+
+    .context-menu #popmenu:hover{
+      background-color:#ececec;
+    }
 /* #alert_cont {
       background: purple;
     position: absolute;
