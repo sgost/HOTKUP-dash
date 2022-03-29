@@ -128,13 +128,12 @@
   data: function () {
     return {
       popShow: false,
-      indToggle: 0,
-      stylex: 0,
-      styley: '500px'
+      indToggle: 0
     };
   },
   methods: {
-  handleClickEvents (event) {
+  handleClickEvents (event, uId) {
+    this.indToggle = uId;
 
       console.log('eventeventevent', event);
 
@@ -144,42 +143,9 @@
 
       const openedContextMenu = document.querySelector("#chatConversationContextMenus"); // event.target.closest(".pane-list").querySelector(".context-menu.is-open");
       console.log("opened context menu : ", openedContextMenu);
-      if (openedContextMenu !== null && openedContextMenu.classList.contains("is-open")) {
-        openedContextMenu.classList.remove("is-open");
-        console.log("closing.");
-        return false;
-      }
 
       if (event.target.classList.contains("contextMenuTrigger")) {
-        this.clickedConversationId = event.target.closest(".category_item").getAttribute("data-item-id");
-        this.isClickedConversationStarred = event.target.closest(".category_item").getAttribute("data-starred") === "true";
-        this.clickedCategoryName = event.target.closest(".category_item").getAttribute("data-item-name");
-        this.clickedCategoryIndex = parseInt(event.target.closest(".category_item").getAttribute("data-item-index"));
-        this.openCategoryItemContextMenu(event);
-      }
-      else if (event.target.classList.contains("category_item")) {
-
-        this.clickedCategoryId = event.target.getAttribute("data-item-id");
-        this.clickedCategoryName = event.target.closest(".category_item").getAttribute("data-item-name");
-        this.clickedCategoryIndex = parseInt(event.target.getAttribute("data-item-index"));
-        this.showDetails(this.clickedCategoryId, this.clickedCategoryIndex);
-      }
-      else if (event.target.classList.contains("context-menu-action-1")) {
-        const clickedCategoryId = this.clickedCategoryId;
-        const clickedCategoryIndex = this.clickedCategoryIndex;
-        const clickedCategoryName = this.clickedCategoryName;
-
-        // Close the context-menu
-        const openedContextMenu = document.querySelector("#chatConversationContextMenus"); // event.target.closest(".pane-list").querySelector(".context-menu.is-open");
-        console.log("opened context menu : ", openedContextMenu);
-        if (openedContextMenu !== null && openedContextMenu.classList.contains("is-open")) {
-          openedContextMenu.classList.remove("is-open");
-        }
-
-        // Send to the server
-        if (clickedCategoryId !== null) {
-          this.setDefaultCategory(clickedCategoryId, clickedCategoryName);
-        }
+        this.openCategoryItemContextMenu(event, uId);
       }
     },
     closeCategoryItemContextMenu (event) {
@@ -198,11 +164,11 @@
         return false;
       }
     },
-    openCategoryItemContextMenu (event) {
+    openCategoryItemContextMenu (event, uID) {
 
       // If target is other than the context-menu trigger, then ignore it.
       if (!event.target.classList.contains("contextMenuTrigger")) {
-        this.closeCategoryItemContextMenu(event);
+        this.closeCategoryItemContextMenu(event, uID);
         return false;
       }
 
@@ -249,8 +215,8 @@
         this.closeCategoryItemContextMenu();
       }
     },
-    onContextMenuActionClick (msg) {
-      alert(msg);
+    onContextMenuActionClick (uId) {
+      alert(uId);
       // alert("This is a message from within the chat-book.vue component." + msg);
       this.closeCategoryItemContextMenu(null);
     },
@@ -281,15 +247,15 @@
 </script>
 
 <style scoped>
-#pop_main {
-  position: relative;
-  height: 100%;
-}
-#pop_main .list-item-menu {
-  width: 20px;
-  height: 20px;
-  background: transparent;
-}
+    #pop_main {
+      position: relative;
+      height: 100%;
+    }
+    #pop_main .list-item-menu {
+      width: 10px;
+      height: 10px;
+      background: transparent;
+    }
     .context-menu{
       position: fixed;
       opacity:0;
