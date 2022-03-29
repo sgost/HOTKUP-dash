@@ -1356,7 +1356,6 @@ export default {
 
     },
     closeCategoryItemContextMenu (event) {
-      alert('closeCategoryItemContextMenu');
 
       console.log("inside close context menu", event);
 
@@ -1373,7 +1372,6 @@ export default {
       }
     },
     openCategoryItemContextMenu (event) {
-      alert('openCategoryItemContextMenu');
 
       // If target is other than the context-menu trigger, then ignore it.
       if (!event.target.classList.contains("contextMenuTrigger")) {

@@ -15,8 +15,8 @@
          width="25" height="25"
          style="border:1px solid rgb(220 220 220);xbackground: #ffeb3b;padding: 3px;margin-left: 0px;height: 45px;width: 45px;">
     </div>
-    <div class="ui_grid_row list-detail" style=" display: grid;">
-      <div class="list-item-row-1" style="display:flex;column-gap:5px">
+    <div class="ui_grid_row list-detail category_item" id="chatSideMenu" style=" display: grid;">
+      <div class="list-item-row-1" id="chatSideMenuContent" style="display:flex;column-gap:5px">
         <div class="task-sno">
           <span v-if="appliedTaskFilter === 'sent' && item.statusCode !== undefined && item.statusCode === 'OVERDUE'" style="color:red">Task #{{item.sno}}   manu</span>
           <span v-else>Task #{{item.sno}}</span>
@@ -35,15 +35,15 @@
         </div>
         <div id="pop_main">
         <div class="list-item-menu contextMenuTrigger" xv-on:mousedown="closeCategoryItemContextMenu($event)"
-                     v-on:click="someMethod">
+                     v-on:click="handleClickEvents($event)">
           <span uk-icon="icon:more-vertical;ratio:0.55;"></span>
         </div>
       <teleport to=".chat_conversations_context_menus">
-      <div class="context-menu" id="chatConversationContextMenus"  v-bind:style="{'top': styley, 'left': stylex, 'display': indToggle === item.sno ? 'flex' : 'none'}">
+      <div class="context-menu" id="chatConversationContextMenus">
           <div style="display: flex;flex-direction: column; width: 100%, font-size: 0.6rem;" id="popmenu_container">
-            <div style="user-select:none" id="popmenu" class="context-menu-action-1" v-on:click="pop_over(item.sno)">Add Participant</div>
-            <div style="user-select:none" id="popmenu" class="context-menu-action-1" v-on:click="pop_over(item.sno)">Add Participant</div>
-            <div style="user-select:none" id="popmenu" class="context-menu-action-1" v-on:click="pop_over(item.sno)">Add Participant</div>
+            <div style="user-select:none" id="popmenu" class="context-menu-action-1" v-on:click="onContextMenuActionClick(item.sno)">User Id</div>
+            <div style="user-select:none" id="popmenu" class="context-menu-action-1" v-on:click="onContextMenuActionClick(item.sno)">Un star</div>
+            <div style="user-select:none" id="popmenu" class="context-menu-action-1" v-on:click="onContextMenuActionClick(item.sno)">Add Participant</div>
             <!-- <div style="padding:5px;user-select:none" class="context-menu-action-1" v-on:click="onContextMenuActionClick(1)">Delete Conversation</div> -->
           </div>
       </div>
@@ -134,26 +134,129 @@
     };
   },
   methods: {
-    someMethod: function (event) {
-            const position = {
+  handleClickEvents (event) {
+
+      console.log('eventeventevent', event);
+
+      event.stopPropagation();
+      event.preventDefault();
+      console.log(event.target);
+
+      const openedContextMenu = document.querySelector("#chatConversationContextMenus"); // event.target.closest(".pane-list").querySelector(".context-menu.is-open");
+      console.log("opened context menu : ", openedContextMenu);
+      if (openedContextMenu !== null && openedContextMenu.classList.contains("is-open")) {
+        openedContextMenu.classList.remove("is-open");
+        console.log("closing.");
+        return false;
+      }
+
+      if (event.target.classList.contains("contextMenuTrigger")) {
+        this.clickedConversationId = event.target.closest(".category_item").getAttribute("data-item-id");
+        this.isClickedConversationStarred = event.target.closest(".category_item").getAttribute("data-starred") === "true";
+        this.clickedCategoryName = event.target.closest(".category_item").getAttribute("data-item-name");
+        this.clickedCategoryIndex = parseInt(event.target.closest(".category_item").getAttribute("data-item-index"));
+        this.openCategoryItemContextMenu(event);
+      }
+      else if (event.target.classList.contains("category_item")) {
+
+        this.clickedCategoryId = event.target.getAttribute("data-item-id");
+        this.clickedCategoryName = event.target.closest(".category_item").getAttribute("data-item-name");
+        this.clickedCategoryIndex = parseInt(event.target.getAttribute("data-item-index"));
+        this.showDetails(this.clickedCategoryId, this.clickedCategoryIndex);
+      }
+      else if (event.target.classList.contains("context-menu-action-1")) {
+        const clickedCategoryId = this.clickedCategoryId;
+        const clickedCategoryIndex = this.clickedCategoryIndex;
+        const clickedCategoryName = this.clickedCategoryName;
+
+        // Close the context-menu
+        const openedContextMenu = document.querySelector("#chatConversationContextMenus"); // event.target.closest(".pane-list").querySelector(".context-menu.is-open");
+        console.log("opened context menu : ", openedContextMenu);
+        if (openedContextMenu !== null && openedContextMenu.classList.contains("is-open")) {
+          openedContextMenu.classList.remove("is-open");
+        }
+
+        // Send to the server
+        if (clickedCategoryId !== null) {
+          this.setDefaultCategory(clickedCategoryId, clickedCategoryName);
+        }
+      }
+    },
+    closeCategoryItemContextMenu (event) {
+
+      console.log("inside close context menu", event);
+
+      // If the mousedown happened on the context-menu item, then don't close the menu.
+      if (event !== undefined && event !== null && event.target.classList.contains("context-menu-action-1")) {
+        return false;
+      }
+
+      const openedContextMenu = document.querySelector("#chatConversationContextMenus"); // event.target.closest(".pane-list").querySelector(".context-menu.is-open");
+      console.log("opened context menu : ", openedContextMenu);
+      if (openedContextMenu !== null && openedContextMenu.classList.contains("is-open")) {
+        openedContextMenu.classList.remove("is-open");
+        return false;
+      }
+    },
+    openCategoryItemContextMenu (event) {
+
+      // If target is other than the context-menu trigger, then ignore it.
+      if (!event.target.classList.contains("contextMenuTrigger")) {
+        this.closeCategoryItemContextMenu(event);
+        return false;
+      }
+
+      // this.closeCategoryItemContextMenu(event);
+
+      event.stopPropagation();
+      event.preventDefault();
+
+      const target = event.target;
+      console.log(event);
+      const contextMenu = document.querySelector("#chatConversationContextMenus"); // event.target.closest(".pane-list").querySelector(".context-menu");
+
+      // if(contextMenu.classList.contains("is-open")){
+      //   contextMenu.classList.remove("is-open");
+      //   return false;
+      // }
+
+      const position = {
         x: event.clientX, // - contextMenu.getBoundingClientRect().width,
         y: event.clientY + 10
       };
-      if (this.indToggle === 0) {
-this.stylex = position.x - 0 + "px";
-      this.styley = position.y + "px";
-      } else {
-        this.stylex = 0;
-      this.styley = 0;
+
+      contextMenu.style.left = position.x - 0 + "px";
+      contextMenu.style.top = position.y + "px";
+
+      if (!contextMenu.classList.contains("is-open")) {
+        setTimeout(() => {
+          contextMenu.classList.add("is-open");
+        }, 125);
       }
-      this.indToggle = this.item.sno;
+
+      document.querySelector('body').addEventListener('click', this.listenForBodyClicksForClosingContextMenu, false);
+
     },
-     hide: function () {
- this.indToggle = 0;
+    listenForBodyClicksForClosingContextMenu (event) {
+      console.log('Body clicked at target ', event.target);
+
+      const foundParent = event.target.closest('#chatConversationContextMenus'); // document.querySelector("#chatConversationContextMenus");
+      // const foundTrigger = event.target.closest('.new_task_options_trigger_button'); // The click event on the trigger must also be ignored.
+      console.log("foundParent : ", foundParent);
+
+      if (foundParent === null) { //  && foundTrigger === null) {
+        console.log('Closing menu as the body-click event landed on the body');
+        this.closeCategoryItemContextMenu();
+      }
     },
-    pop_over: function (e) {
-      this.indToggle = 0;
-      alert(e);
+    onContextMenuActionClick (msg) {
+      alert(msg);
+      // alert("This is a message from within the chat-book.vue component." + msg);
+      this.closeCategoryItemContextMenu(null);
+    },
+    toggleChatSideMenu () {
+      document.querySelector("#chatSideMenu").classList.toggle("isClosed");
+      document.querySelector("#chatSideMenuContent").classList.toggle("isClosed");
     }
   },
   created: function () {},
@@ -189,20 +292,38 @@ this.stylex = position.x - 0 + "px";
 }
     .context-menu{
       position: fixed;
-      width: 180px;
+      opacity:0;
       overflow: hidden;
+      transition:0.10s ease-out;
+      transform-origin:top left;
+      transform:scale(0);
+      pointer-events:none;
+      width: 200px;
+      max-height: 150px;
+      font-size: 0.8rem;
+      padding: 9px 0px;
       z-index: 10;
       background: white;
-      top: 10px;
-          border-radius: 6px;
-          padding: 5px 0;
-       box-shadow: rgb(0 0 0 / 0%) 0px 2px 5px 0px, rgb(0 0 0 / 13%) 0px 2px 10px 0px;
+      box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px, rgba(0, 0, 0, 0.16) 0px 2px 10px 0px;
+      box-shadow: rgb(0 0 0 / 0%) 0px 2px 5px 0px, rgb(0 0 0 / 13%) 0px 2px 10px 0px;
+      border-radius: 3px;
+      border: 1px solid #e0e0e0;
     }
 
     .context-menu.is-open{
       opacity:1;
       transform:scale(1);
       pointer-events:all;
+    }
+
+    .context-menu div div{
+      cursor:pointer;
+      padding:5px 15px !important;
+    }
+
+    .context-menu div div:hover{
+      background-color:#ececec;
+      padding:5px 15px !important;
     }
 
      .context-menu #popmenu_container {
@@ -218,25 +339,4 @@ this.stylex = position.x - 0 + "px";
     .context-menu #popmenu:hover{
       background-color:#ececec;
     }
-/* #alert_cont {
-      background: purple;
-    position: absolute;
-    top: 10%;
-    display: flex;
-    color: white;
-    align-items: center;
-    height: fit-content;
-    padding: 10px;
-    border-radius: 6px;
-    right: 10px;
-    z-index: 10;
-    width: 286px;
-    height: 59px;
-    box-shadow: rgb(0 0 0 / 0%) 0px 2px 5px 0px, rgb(0 0 0 / 13%) 0px 2px 10px 0px;
-}
-#alert_cont p {
-      line-height: 0;
-    margin: 0 0 0 20px;
-    font-size: 21px;
-} */
 </style>

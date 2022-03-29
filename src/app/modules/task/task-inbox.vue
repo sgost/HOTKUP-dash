@@ -12,7 +12,7 @@
                       <button id="new_task_button" v-on:click="sendNewTaskEvent($event)" xv-on:click="goTo('create-task-page')" class="btn clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button"
                               style="background-color: rgb(37, 139, 255);border-radius: 3px 0px 0px 3px;place-self: center;place-items: center;min-width: 100px;font-size: 0.75rem;line-height: 27px;font-weight: normal !important;text-transform: capitalize;">
                         <span uk-icon="icon:file-edit;ratio:0.75"></span>
-                        <span style="margin-left:5px"> New Tasks from manoj</span>
+                        <span style="margin-left:5px"> New Tasks</span>
                       </button>
                       <button v-on:click="handleNewTaskOptionsClick()" xv-on:click="goTo('create-task-page')" class="new_task_options_trigger_button clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button"
                               style="background-color: rgb(37, 139, 255);border-radius: 0px 3px 3px 0px;place-self: center;place-items: center;font-size: 0.65rem;line-height: 27px;font-weight: normal !important;margin-top: 0px;margin-left: 0.045rem;padding: 0px;;">
