@@ -26,6 +26,9 @@ import TaskSearchModal from './../app/modules/task/task-search-modal.vue';
 import TaskViewInfoTab from './../app/modules/task/task-info-tab.vue';
 import TaskViewActivityTab from './../app/modules/task/task-activity-tab.vue';
 import TaskViewSubtasksTab from './../app/modules/task/task-subtasks-tab.vue';
+
+import TaskViewCheckList from './../app/modules/task/tab-checklist.vue';
+
 import TaskViewFormsTab from './../app/modules/task/task-forms-tab.vue';
 
 import ChatBook from './../app/modules/chat/chat-book.vue';

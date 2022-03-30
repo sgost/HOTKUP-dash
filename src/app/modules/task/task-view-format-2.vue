@@ -518,145 +518,24 @@
                   </div>
               </div>
               <div v-show="selectedTabKey==='checklist'" style="flex-grow: 1;overflow-y: hidden;position: relative;background: rgba(255, 255, 255, 0.75);display: flex;flex-direction: column;">
-                  <div style="display: flex;padding: 20px 0px;column-gap: 30px;;margin-right:15px;margin-left:15px;">
-                        <div style="flex:1">
-                            <input type="text" v-model="checklistItem.activityName" class="uk-input" placeholder="Add new checklist item" style="border-radius:3px"/>
-                        </div>
-                        <div>
-                            <button v-on:click="saveChecklistItem()"  class="clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button" style="background-color:#2196f3;border-radius: 3px;min-width: 100px;font-size: 0.65rem;line-height: 30px;font-weight: normal !important;display: inline-block;">
-                                <span style="padding-left: 10px;">{{checklistLabel}}</span>
-                            </button>
-                        </div>
-                  </div>
-                  <br>
-                  <div v-if="isChecklistsTabInitialized" class="custom-scroll-bar" style="position: relative;flex-grow: 1;">
-                      <template v-for="item,index in taskObject.checklist">
-                          <div class="checklist_item"  v-if="(item.stageId === null) ||
-                                                             (item.stageId === undefined) ||
-                                                             (item.stageId !== null && taskObjectBeforeChange.statusInfo !== null && taskObjectBeforeChange.statusInfo.id === item.stageId)">
 
-                              <div v-show="item.status!=='COMPLETED' && item.status!=='CANCELLED'" v-on:click="updateChecklistItemStatus(item, $event)" style="border:1px solid #555;height: 20px;width: 20px;display: grid;cursor:pointer;border-radius: 3px;">
-                              </div>
-                              <div v-show="item.status==='COMPLETED'" uk-tooltip="pos:left;title:You cannot change the status of a completed item" style="xcursor: not-allowed;border: 1px solid rgb(86, 206, 42);background: rgb(122, 209, 90);height: 20px;width: 20px;display: grid;border-radius: 3px;">
-                                  <span uk-icon="check" class="scaleZero" style="color: white;transform-origin: center center;transition: 0.15s ease-out;"></span>
-                              </div>
-                              <div v-show="item.status==='CANCELLED'" style="filter: brightness(1.75);border:1px solid gray;height: 20px;width: 20px;display: grid;cursor:pointer;border-radius: 3px;">
-                              </div>
-
-                              <div style="flex:1;" v-if="item.status==='COMPLETED'">
-                                <div>
-                                  {{index+1}}.
-                                  <span style="text-decoration: xline-through red;">{{item.activityName}}</span>
-                                  <span style="color: #8080809c;display:none" v-if="item.stageName !== null" > [ Visible during stage - {{item.stageName}} ]</span>
-                                </div>
-                                <div v-if="item.updatedBy !== null" style="padding-left:0px">
-                                  <span style="color: rgb(140 140 140);font-size: 0.55rem;">
-                                     Completed by {{item.updatedBy.split("#")[1]}}
-                                  </span>
-                                  <span v-if="item.updatedOn !== null" style="cursor: help;color: rgb(140 140 140);font-size: 0.55rem;" v-bind:title="item.updatedOnFormatted">&nbsp; ({{item.updatedOnAgo}})</span>
-                                </div>
-                              </div>
-                              <div style="flex:1;" v-if="item.status!=='COMPLETED' && item.status!=='CANCELLED'">
-                                {{index+1}}. {{item.activityName}}
-                                <span style="color: #8080809c;display:none" v-if="item.stageName !== null" > [ Visible during stage - {{item.stageName}} ]</span>
-                              </div>
-                              <div style="flex: 1 1 0%;filter: brightness(1.75);" v-if="item.status==='CANCELLED'">
-                                <div>
-                                  {{index+1}}.
-                                    <span style="text-decoration: xline-through red;">{{item.activityName}} </span>
-                                    <span style="color: #8080809c;display:none" v-if="item.stageName !== null" > [ Visible during stage - {{item.stageName}} ]</span>
-                                </div>
-                                <div v-if="item.updatedBy !== null" style="padding-left:0px">
-                                  <span style="color: rgb(101 101 101);font-size: 0.55rem;">
-                                     Cancelled by {{item.updatedBy.split("#")[1]}}
-                                  </span>
-                                  <span v-if="item.updatedOn !== null" style="cursor: help;color: rgb(101 101 101);font-size: 0.55rem;" v-bind:title="item.updatedOnFormatted">&nbsp; ({{item.updatedOnAgo}})</span>
-                                </div>
-                              </div>
-
-                              <div v-if="item.status==='COMPLETED'">
-                                <span style="background: #59d059;color: white;padding:4px 10px;border-radius: 20px;font-size: 0.45rem;margin-left: 20px;letter-spacing: 1px;">COMPLETED</span>
-                              </div>
-                              <div v-if="item.status==='CANCELLED'">
-                                <span style="filter: brightness(1.75);background: rgb(99 99 99);color: #929292;padding:4px 10px;border-radius: 20px;font-size: 0.45rem;margin-left: 20px;letter-spacing: 1px;">CANCELLED</span>
-                              </div>
-                              <div v-if="item.status!=='COMPLETED' && item.status!=='CANCELLED'">
-                                <a uk-tooltip="pos:left;title:You cannot undo once you cancel the item" v-on:click="cancelChecklistItem(item)">Cancel Item</a>
-                              </div>
-                          </div>
-                      </template>
-                  </div>
+                <!-- Passing data for Checklist component -->
+                  <task-checklist-tab v-bind:checklistItem="checklistItem" v-bind:saveChecklistItem="saveChecklistItem" v-bind:checklistLabel="checklistLabel" 
+                  v-bind:isChecklistsTabInitialized="isChecklistsTabInitialized"
+                  v-bind:taskObject="taskObject"
+                  v-bind:taskObjectBeforeChange="taskObjectBeforeChange"
+                  v-bind:updateChecklistItemStatus="updateChecklistItemStatus"
+                  v-bind:cancelChecklistItem="cancelChecklistItem"
+                  />
               </div>
+
               <div v-show="selectedTabKey==='reminders'" style="display: flex;flex-direction: column;flex-grow: 1;overflow-y: hidden; position: relative;height: 100%;;background: #ffffffa1;">
-                  <div v-if="isRemindersTabInitialized" style="display: flex;padding: 20px;min-height: 300px;flex-direction: column;">
-
-                      <div style="padding: 5px 0px;margin-right:20px;margin-bottom: 10px;display: grid;grid-template-rows: 1fr;place-items: flex-start;border-bottom: 1px solid #d0d0d0;">
-                          <button v-on:click="openAddReminderModal()"  class="clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button" style="background-color:#2196f3;border-radius: 3px;min-width: 100px;font-size: 0.65rem;line-height: 30px;font-weight: normal !important;display: inline-block;">
-                              <span uk-icon="icon:plus;ratio:0.65" class="uk-icon" style="">
-                                <svg width="13" height="13" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="plus">
-                                  <rect x="9" y="1" width="1" height="17"></rect>
-                                  <rect x="1" y="9" width="17" height="1"></rect>
-                                </svg>
-                              </span>
-                              <span style="padding-left: 10px;">Add Reminder</span>
-                          </button>
-                      </div>
-                      <div v-if="isRemindersTabInitialized" class="custom-scroll-bar" style="position: relative;flex-grow: 1;">
-                        <div v-show="reminderList.length==0" style="text-align:center;border-bottom: 0px;"> No reminders added </div>
-                        <div  v-show="reminderList.length>0" style="border-radius: 5px;border: 1px solid rgba(128, 128, 128, 0.25);margin-right: 5px;margin-left: 0px;padding: 1px 1px;">
-                            <div style="background:rgb(242 242 242 / 23%);border-width:1px 1px 0px;border-top-style:solid;border-right-style:solid;border-bottom-style:initial;border-left-style:solid;border-top-color:transparent;border-right-color:transparent;border-bottom-color:initial;border-left-color:transparent;border-image:initial;text-transform:uppercase;font-size:.5rem;padding: 10px 0px;display:flex;border-bottom:1px solid #d0d0d0;column-gap:20px;font-weight:bold;letter-spacing:1px;">
-
-                                <div style="flex:0.25;text-align:right">Sno.</div>
-                                <div style="flex:4;">
-                                  Title
-                                </div>
-                                <div style="flex:1;">Type</div>
-                                <div style="flex:2;">Date/Time</div>
-                                <div style="flex:1;">Actions</div>
-                            </div>
-                            <template v-for="item,index in reminderList">
-                                <div style="position: relative;padding: 10px;min-height: 20px;justify-items: start;column-gap: 20px;background-color: rgb(255 255 255 / 75%);font-size: 0.65rem;display: flex;">
-
-                                    <div style="flex:0.25;text-align:right" v-if="item.status==='ELAPSED'">{{index+1}}</div>
-                                    <div style="flex:0.25;text-align:right;" v-if="item.status!=='ELAPSED' && item.status!=='CANCELLED'">{{index+1}}</div>
-                                    <div style="flex:0.25;text-align:right;filter: brightness(1.75);" v-if="item.status==='CANCELLED'">{{index+1}}</div>
-
-                                    <div  style="flex:4;" v-if="item.status==='ELAPSED'">
-                                      <div><span style="text-decoration: line-through red;">{{item.title}}</span></div>
-                                      <div style="color: rgb(188 188 188); font-size: 0.55rem;">Reminder set for {{item.usersString}}</div>
-                                    </div>
-                                    <div style="flex:4;" v-if="item.status!=='ELAPSED' && item.status!=='CANCELLED'">
-                                      <div>{{item.title}} &nbsp; &nbsp; &nbsp; &nbsp; </div>
-                                      <div style="color: rgb(188 188 188); font-size: 0.55rem;">Reminder set for {{item.usersString}}</div>
-                                    </div>
-                                    <div style="flex:4;filter: brightness(1.75);" v-if="item.status==='CANCELLED'">
-                                      <div>{{item.title}} &nbsp; &nbsp; &nbsp; &nbsp;</div>
-                                      <div style="color: rgb(101, 101, 101); font-size: 0.55rem;">Reminder set for {{item.usersString}}</div>
-                                    </div>
-
-                                    <div style="flex:1;" v-if="item.status==='ELAPSED'">{{item.type}}</div>
-                                    <div style="flex:1;" v-if="item.status!=='ELAPSED' && item.status!=='CANCELLED'">{{item.type}}</div>
-                                    <div style="flex:1;filter: brightness(1.75);" v-if="item.status==='CANCELLED'">{{item.type}}</div>
-
-                                    <div style="flex:2;" v-if="item.status==='ELAPSED'">{{item.dateTimeFormatted}}</div>
-                                    <div style="flex:2;" v-if="item.status!=='ELAPSED' && item.status!=='CANCELLED'">{{item.dateTimeFormatted}}</div>
-                                    <div style="flex:2;filter: brightness(1.75);" v-if="item.status==='CANCELLED'">{{item.dateTimeFormatted}}</div>
-
-                                    <!-- <div style="flex:1;" v-if="item.status!=='ELAPSED'"><a v-on:click="updateReminderItem(item)">Edit</a>  |  <a v-on:click="removeReminder(item)">Remove</a></div> Removing after Pawan said 'Cancel will do, no edits required' -->
-                                    <div style="flex:1;text-align:center;" v-if="item.status!=='ELAPSED' && item.status!=='CANCELLED'"><a v-on:click="cancelReminderItem(item)">Cancel</a></div>
-                                    <div style="flex:1;" v-if="item.status==='ELAPSED'">
-                                      <span style="background: #59d059;color: white;padding:4px 10px;border-radius: 20px;font-size: 0.45rem;margin-left: 20px;letter-spacing: 1px;">ELAPSED</span>
-                                    </div>
-                                    <div style="flex:1;" v-if="item.status==='CANCELLED'">
-                                      <span style="filter: brightness(1.75);background: rgb(99 99 99);color: #929292;padding:4px 10px;border-radius: 20px;font-size: 0.45rem;margin-left: 20px;letter-spacing: 1px;">CANCELLED</span>
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                      </div>
-
-
-                  </div>
+                  <task-checklist-remainders
+                  v-bind:isRemindersTabInitialized="isRemindersTabInitialized"
+                  v-bind:openAddReminderModal="openAddReminderModal"
+                  v-bind:reminderList="reminderList"
+                  v-bind:cancelReminderItem="cancelReminderItem"
+                  />
               </div>
               <div v-show="selectedTabKey==='timelogs'" style="overflow-y: hidden; position: relative;;background: #ffffffa1;">
                   <div v-if="isTimelogsTabInitialized"  style="display: flex;padding: 20px;min-height: 300px;flex-direction: column;">

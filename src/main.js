@@ -44,6 +44,10 @@ import TaskSearchModal from './app/modules/task/task-search-modal.vue';
 import TaskViewInfoTab from './app/modules/task/task-info-tab.vue';
 import TaskViewActivityTab from './app/modules/task/task-activity-tab.vue';
 import TaskViewSubtasksTab from './app/modules/task/task-subtasks-tab.vue';
+
+import TaskViewCheckList from './app/modules/task/tab-checklist.vue';
+import TaskViewRemainders from './app/modules/task/tab-reminders.vue';
+
 import TaskViewFormsTab from './app/modules/task/task-forms-tab.vue';
 import ChatBook from './app/modules/chat/chat-book.vue';
 import ChatPage from './app/modules/chat/chat-page.vue';
@@ -99,6 +103,10 @@ app.component('rtaskview-format-2', defineAsyncComponent(() => import(/* webpack
 app.component('task-search-modal', TaskSearchModal);
 app.component('task-info-tab', TaskViewInfoTab);
 app.component('task-activity-tab', TaskViewActivityTab);
+
+app.component('task-checklist-tab', TaskViewCheckList);
+app.component('task-checklist-remainders', TaskViewRemainders);
+
 app.component('task-subtasks-tab', TaskViewSubtasksTab);
 app.component('task-forms-tab', TaskViewFormsTab);
 app.component('new-task-form', defineAsyncComponent(() => import(/* webpackChunkName: "new-task-form-modal" */ './app/modules/task/new-task-form.vue')));

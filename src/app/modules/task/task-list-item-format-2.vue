@@ -35,7 +35,7 @@
         </div>
         <div id="pop_main">
         <div class="list-item-menu contextMenuTrigger" xv-on:mousedown="closeCategoryItemContextMenu($event)"
-                     v-on:click="handleClickEvents($event)">
+                     v-on:click="handleClickEvents($event, item.sno)">
           <span uk-icon="icon:more-vertical;ratio:0.55;"></span>
         </div>
       <teleport to=".chat_conversations_context_menus">
@@ -133,7 +133,8 @@
   },
   methods: {
   handleClickEvents (event, uId) {
-    this.indToggle = uId;
+
+    localStorage.setItem('userId', uId);
 
       console.log('eventeventevent', event);
 
@@ -145,6 +146,8 @@
       console.log("opened context menu : ", openedContextMenu);
 
       if (event.target.classList.contains("contextMenuTrigger")) {
+        this.clickedCategoryName = event.target.closest(".category_item").getAttribute("data-item-name");
+        this.clickedCategoryIndex = parseInt(event.target.closest(".category_item").getAttribute("data-item-index"));
         this.openCategoryItemContextMenu(event, uId);
       }
     },
@@ -215,8 +218,8 @@
         this.closeCategoryItemContextMenu();
       }
     },
-    onContextMenuActionClick (uId) {
-      alert(uId);
+    onContextMenuActionClick () {
+      alert(localStorage.getItem('userId'));
       // alert("This is a message from within the chat-book.vue component." + msg);
       this.closeCategoryItemContextMenu(null);
     },
