@@ -17,14 +17,15 @@
             <span uk-icon="icon:cog;ratio:0.55" class="uk-icon"></span>
             <span> Settings </span>
           </div>
+          <!-- Refresh Btn -->
+           <div v-on:click="fetchChartPreferences(true)">
+            <img src="https://test.hotkup.com/resources/images/refresh.svg" style="width: 17px; cursor: pointer"/>
+          </div>
         </div>
         <div style="display:flex;height:100%;overflow-y:hidden">
-          <div id="pinned_charts_container" class="custom-scroll-bar" style="width: 100%;display: flex;flex-flow: row wrap;gap: 35px;display: grid;grid-template-columns: 1fr 1fr 1fr;padding: 20px;overflow-y: auto;">
-
-
-
-            <template v-for="pinnedChart in chartPreferences">
-              <div v-if="pinnedChart.status === 'ENABLED'" class="chart-container">
+          <div id="pinned_charts_container" class="custom-scroll-bar" style="width: 100%;display: flex;flex-flow: row wrap;gap: 35px;display: grid;grid-template-columns: 1fr 1fr 1fr;padding: 20px;overflow-y: auto;"> 
+            <template v-for="(pinnedChart, index) in chartPreferences">
+              <div v-if="pinnedChart.status === 'ENABLED'" class="chart-container" v-bind:key="index">
                   <div class="chart-title">{{pinnedChart.name}}</div>
                   <div class="float-child" style="width: 400px;height: 250px;display: flex;align-items: center;">
                     <canvas v-bind:id="'chart_'+ pinnedChart.id"  width="400" height="250"></canvas>
@@ -2278,7 +2279,9 @@ export default {
 
   mounted () {
 
-
+     bus.on('new-notification', (data) => {
+        this.fetchChartPreferences(true);
+     });
     // https://cdn.jsdelivr.net/npm/chart.js@3.3.0/dist/chart.min.js
     // https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js
     // const chartJSLibrary = document.createElement('script');

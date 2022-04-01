@@ -47,6 +47,8 @@ import TaskViewSubtasksTab from './app/modules/task/task-subtasks-tab.vue';
 
 import TaskViewCheckList from './app/modules/task/tab-checklist.vue';
 import TaskViewRemainders from './app/modules/task/tab-reminders.vue';
+import TaskViewTimeLogs from './app/modules/task/tab-timelogs.vue';
+import TaskViewTransitions from './app/modules/task/tab-transitions.vue';
 
 import TaskViewFormsTab from './app/modules/task/task-forms-tab.vue';
 import ChatBook from './app/modules/chat/chat-book.vue';
@@ -105,7 +107,9 @@ app.component('task-info-tab', TaskViewInfoTab);
 app.component('task-activity-tab', TaskViewActivityTab);
 
 app.component('task-checklist-tab', TaskViewCheckList);
-app.component('task-checklist-remainders', TaskViewRemainders);
+app.component('task-remainders', TaskViewRemainders);
+app.component('task-time-logs', TaskViewTimeLogs);
+app.component('task-time-transitions', TaskViewTransitions);
 
 app.component('task-subtasks-tab', TaskViewSubtasksTab);
 app.component('task-forms-tab', TaskViewFormsTab);

@@ -1,5 +1,5 @@
 <template>
-  <div style="position: relative;width: 100%;box-sizing: border-box;padding: 25px;align-items: center;display: flex;">
+  <div style="position: relative;width: 100%;box-sizing: border-box;padding: 25px;align-items: center;display: none;">
 
     <div class="dashboard-overlay" id="dashboard-overlay" style="transition:0.5s linear;z-index: 2;position: absolute;inset: 0px;display: grid;place-items: center;background: white;opacity: 0.95;">
       Loading charts..

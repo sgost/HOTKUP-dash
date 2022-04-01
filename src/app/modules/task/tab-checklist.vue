@@ -1,4 +1,5 @@
 <template>
+ <div v-show="selectedTabKey==='checklist'" style="flex-grow: 1;overflow-y: hidden;position: relative;background: rgba(255, 255, 255, 0.75);display: flex;flex-direction: column;">
                   <div style="display: flex;padding: 20px 0px;column-gap: 30px;;margin-right:15px;margin-left:15px;">
                         <div style="flex:1">
                             <input type="text" v-model="checklistItem.activityName" class="uk-input" placeholder="Add new checklist item" style="border-radius:3px"/>
@@ -14,7 +15,7 @@
                       <template v-for="item,index in taskObject.checklist">
                           <div class="checklist_item"  v-if="(item.stageId === null) ||
                                                              (item.stageId === undefined) ||
-                                                             (item.stageId !== null && taskObjectBeforeChange.statusInfo !== null && taskObjectBeforeChange.statusInfo.id === item.stageId)">
+                                                             (item.stageId !== null && taskObjectBeforeChange.statusInfo !== null && taskObjectBeforeChange.statusInfo.id === item.stageId)" v-bind:key="index">
 
                               <div v-show="item.status!=='COMPLETED' && item.status!=='CANCELLED'" v-on:click="updateChecklistItemStatus(item, $event)" style="border:1px solid #555;height: 20px;width: 20px;display: grid;cursor:pointer;border-radius: 3px;">
                               </div>
@@ -67,6 +68,7 @@
                           </div>
                       </template>
                   </div>
+        </div>
 </template>
 <script>
 
@@ -81,7 +83,7 @@
     utilsMixinLib,
     uiListMixinLib
   ],
-  props: ['checklistItem', 'saveChecklistItem', 'checklistLabel', 'isChecklistsTabInitialized', 'taskObject', 'taskObjectBeforeChange', 'updateChecklistItemStatus', 'cancelChecklistItem'],
+  props: ['selectedTabKey', 'checklistItem', 'saveChecklistItem', 'checklistLabel', 'isChecklistsTabInitialized', 'taskObject', 'taskObjectBeforeChange', 'updateChecklistItemStatus', 'cancelChecklistItem'],
   data: function () {
     return {
     };

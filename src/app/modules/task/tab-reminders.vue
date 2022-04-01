@@ -1,4 +1,5 @@
 <template>
+<div v-show="selectedTabKey==='reminders'" style="display: flex;flex-direction: column;flex-grow: 1;overflow-y: hidden; position: relative;height: 100%;;background: #ffffffa1;">
 <div v-if="isRemindersTabInitialized" style="display: flex;padding: 20px;min-height: 300px;flex-direction: column;">
 
                       <div style="padding: 5px 0px;margin-right:20px;margin-bottom: 10px;display: grid;grid-template-rows: 1fr;place-items: flex-start;border-bottom: 1px solid #d0d0d0;">
@@ -66,7 +67,7 @@
                         </div>
                       </div>
 
-
+  </div>
                   </div>
 </template>
 <script>
@@ -82,7 +83,7 @@
     utilsMixinLib,
     uiListMixinLib
   ],
-  props: ['isRemindersTabInitialized', 'openAddReminderModal', 'reminderList', 'cancelReminderItem'],
+  props: ['selectedTabKey', 'isRemindersTabInitialized', 'openAddReminderModal', 'reminderList', 'cancelReminderItem'],
   data: function () {
     return {
     };
