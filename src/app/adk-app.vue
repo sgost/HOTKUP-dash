@@ -199,6 +199,12 @@
                           </div>
                           <div style="transform: scale(0.85);text-transform: uppercase;font-size: 0.45rem;letter-spacing: 1px;;user-select:none">Dashboard</div>
                       </div>
+                      <div v-on:click="loadComponent('User')" id="User-module" style="user-select:none;display: flex;align-items: center;flex-direction: column;font-size: 0.65rem;gap: 5px;">
+                          <div style="transform: scale(0.85);border: 3px solid rgb(230 230 230);background: rgb(234 234 234);border-radius: 50%;position: relative;padding:7px;display: flex;">
+                            <span uk-icon="cog" class="uk-icon" style="transform: scale(0.75);"></span>
+                          </div>
+                          <div style="transform: scale(0.85);text-transform: uppercase;font-size: 0.45rem;letter-spacing: 1px;text-align: center;">User</div>
+                      </div>
 
                       <!--
                       <div v-on:click="loadComponent('dev-chat-component')" id="dev-chat-component-module" xv-on:xclickPrev="signalShowChat('chat_menu')" style="user-select:none;display: flex;align-items: center;flex-direction: column;font-size: 0.65rem;gap: 5px;">
@@ -431,6 +437,7 @@
   import ChatBook from './../app/modules/chat/chat-book.vue';
   import Calendar from './../app/modules/calendar/calendar.vue';
   import ReportsComponent from './../app/modules/reports/home-page.vue';
+  import User from './../app/modules/user/user.vue';
   import MySettingsComponent from './../app/modules/user-profile/my-settings.vue';
 
 
@@ -1070,6 +1077,9 @@
       } else if (name === 'dashboard-component') {
         this.isTaskView = false;
         this.currentTabComponent = Dashboard;
+      } else if (name === 'User') {
+        this.isTaskView = false;
+        this.currentTabComponent = User;
       } else if (name === 'my-settings') {
         this.isTaskView = false;
         this.currentTabComponent = MySettingsComponent;

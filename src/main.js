@@ -54,6 +54,7 @@ import TaskViewFormsTab from './app/modules/task/task-forms-tab.vue';
 import ChatBook from './app/modules/chat/chat-book.vue';
 import ChatPage from './app/modules/chat/chat-page.vue';
 import Calendar from './app/modules/calendar/calendar.vue';
+import User from './app/modules/user/user.vue';
 import ComponentA from './app/modules/test/component-a.vue';
 import ComponentB from './app/modules/test/component-b.vue';
 // import TaskInboxPrivate from './app/wireframes/task-inbox-private.vue';
@@ -128,6 +129,7 @@ app.component('notification-subscription-form', NotificationSubscriptionForm);
 
 app.component('chat-book', ChatBook);
 app.component('chat-page', ChatPage);
+app.component('User', User);
 
 // app.component('vue-textarea', TextAreaComponent);
 
