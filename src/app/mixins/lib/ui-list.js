@@ -37,7 +37,6 @@ export default
         this.getList();
       },
       getList(hasCustomURL) {
-        alert("getList");
         console.log('hasCustomURL', hasCustomURL);
         // If all records are fetched, make no calls to the server again.
         if (this.allRecordsFetched) { return false; }
@@ -55,7 +54,7 @@ export default
         // alert(this.http);
         axios.get(process.env.VUE_APP_API_URL + this.url)
           .then((dataResponse) => {
-            //                console.log("List: " , dataResponse);
+            console.log("List: ", dataResponse);
             this.handleData(dataResponse);
 
             // If there are more records to fetch, then start observing the loadMore-intObsrv-trigger.

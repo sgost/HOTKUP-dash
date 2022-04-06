@@ -64,6 +64,15 @@
     .depedencytask_row > div {
       margin-bottom: 5px;
     }
+    .uk-nav-header {
+    padding: 5px!important;
+    text-transform: uppercase;
+    font-size: .5rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    background: #f3f3f3;
+    margin: 10px 0;
+}
 </style>
 
 <template>
@@ -74,16 +83,15 @@
           <div vv-if="loggedInUser.isInformationFetchComplete" id="appSideMenuContent" class="app-side-menu-content">
             <div class="uk-offcanvas-bar0 custom-scroll-bar side-bar-light" style="flex-grow:1;padding-top:50px">
                 <ul class="uk-nav uk-nav-default">
-
-
+                  <li class="uk-nav-header">SYSTEM SETTINGS</li>
                     <li class="menu-item uk-active selected-menu" id="rtasks_settings_menu" >
                       <a v-on:click="loadMySettingsMenu('rtasks_settings_menu')" uk-tooltip="title:Configure Recurring Tasks;pos:right">
-                        <span class="lnr lnr-history" style="transform: rotateY(180deg);"></span>&nbsp;&nbsp;Admin
+                        Admin
                       </a>
                     </li>
                     <li class="menu-item" id="ui_settings_menu">
                       <a v-on:click="loadMySettingsMenu('ui_settings_menu')" uk-tooltip="title:Configure UI Settings;pos:right">
-                        <span class="lnr lnr-select"></span>&nbsp;&nbsp;UI Settings
+                        Groups
                       </a>
                     </li>
 
@@ -94,24 +102,40 @@
                         <span class="counter-label" id="drafts_count"></span>
                       </a>
                     </li>-->
+                    <li class="uk-nav-header">TASK SETTINGS</li>
                     <li class="menu-item" id="notifications_settings_menu" >
                       <a v-on:click="loadMySettingsMenu('notifications_settings_menu')" uk-tooltip="title:Configure Notification preferences;pos:right">
-                        <span class="lnr lnr-alarm"></span>&nbsp;&nbsp;Notification Settings
+                       Default Task Stages
                       </a>
                     </li>
                     <li class="menu-item" id="chat_settings_menu">
                       <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Chat Settings;pos:right">
-                        <span class="lnr lnr-bubble"></span>&nbsp;&nbsp;Chat Settings
+                       Categories
+                      </a>
+                    </li>
+                    <li class="menu-item" id="chat_settings_menu">
+                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Chat Settings;pos:right">
+                       Workgroups
+                      </a>
+                    </li>
+                    <li class="menu-item" id="chat_settings_menu">
+                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Chat Settings;pos:right">
+                       Forms
+                      </a>
+                    </li>
+                    <li class="menu-item" id="chat_settings_menu">
+                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Chat Settings;pos:right">
+                       Tabular Forms
+                      </a>
+                    </li>
+                     <li class="menu-item" id="chat_settings_menu">
+                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Chat Settings;pos:right">
+                      Global Entities ?
                       </a>
                     </li>
 
                     <li v-if="hasAdminRoles" class="menu-item" style="margin-top:20px">
                       <hr>
-                    </li>
-                    <li v-if="hasAdminRoles" class="menu-item" id="admin_settings_menu">
-                      <a href="/admin"  uk-tooltip="title:Go to Company Settings;pos:right">
-                        <span class="lnr lnr-cog"></span>&nbsp;&nbsp;Admin Settings
-                      </a>
                     </li>
 
                 </ul>
@@ -121,7 +145,7 @@
 
     </div>
     <div style="display: flex;width: 100%;flex-grow: 1;">
-        <div style="margin:50px 50px 0px 50px;display: flex;width: 100%;flex-grow: 1;">
+        <div style="margin:13px 13px 0px 13px;display: flex;width: 100%;flex-grow: 1;">
             <div v-if="chosenView === 'ui_settings_menu'" style="display: flex;width: 100%;flex-direction: column;">
                 <div>UI Settings</div>
                 <div><hr></div>

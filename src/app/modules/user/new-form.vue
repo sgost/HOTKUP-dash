@@ -317,11 +317,13 @@ import uiListMixinLib             from './../../mixins/lib/ui-list.js';
                     password : this.tenantUserObject.password
                 }
 
+                console.log('formData',form);
+
                 // VueJS ajax call-1
                 axios.post(post_url, form)
                           .then((dataResponse) => {
 
-                            console.log("TenantUser Registration Result : ");
+                            console.log("TenantUser Registration Result : dataResponse");
                             console.log(dataResponse);
 
                             if(dataResponse.data["actionResult"]===1)

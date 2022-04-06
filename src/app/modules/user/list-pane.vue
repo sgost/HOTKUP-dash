@@ -89,7 +89,7 @@
 
 <template>
 
-<div class="app_container" style="background-color: whitesmoke;grid-template-columns:1fr 2fr">
+<div class="app_container" style="background-color: whitesmoke;grid-template-columns:1fr 2fr; height: 100%">
     <div class="desktop pane_list_view" style="padding: 15px 15px 15px 15px; overflow-y: hidden; display: grid; background: rgb(242, 242, 242); color: rgb(51, 51, 51);">
 
         <div class="adk_grid_toolbar" style="grid-template-columns: auto 1fr;margin-right: 10px;">
@@ -183,13 +183,18 @@
 
 <script>
 
-import uiListMixinLib from './../../mixins/lib/ui-list.js';
-
 export default {
-    mixins : [uiListMixinLib],
     props: [],
     data: function() {
         return {
+            list: [],
+            url: null,
+            searchQuery: '',
+            pageNumber: 1,
+            allRecordsFetched: false,
+            isIntersectionObserverFired: false,
+            observer: null,
+            observerElement: 'isObserver',
             appName: this.$route.params.app_name,
             api : "users",
             displayNewForm : false,
@@ -288,7 +293,96 @@ export default {
         refreshPaneList(){
           console.log("Refresh pane list");
           this.resetRefreshList();
+        },
+
+        //Removing Data from mixins file
+
+        getSearchList() {
+        console.log('searching..');
+        this.pageNumber = 1;
+        this.list = [];
+        this.allRecordsFetched = false;
+        this.observer.unobserve(document.getElementById(this.observerElement));
+        this.isIntersectionObserverFired = false;
+        this.getList();
+      },
+      resetRefreshList() {
+        console.log('Refreshing..');
+        this.pageNumber = 1;
+        this.list = [];
+        this.allRecordsFetched = false;
+        this.observer.unobserve(document.getElementById(this.observerElement));
+        this.isIntersectionObserverFired = false;
+        this.getList();
+      },
+      getList() {
+        // If all records are fetched, make no calls to the server again.
+        if (this.allRecordsFetched) { return false; }
+        // Custom URL represents a url that is different from the one mentioned in 'updateFetchURL' method.
+        // This is used in businessbench's customer list filter by category.
+        this.updateFetchURL(); // Urls can differ from component-to-component..
+
+        //        console.log("Mixing:Retrieving data from : " + this.url);
+
+        // VueJS ajax call-1
+        //        console.log("this : ", this);
+        // alert(this.http);
+        axios.get(process.env.VUE_APP_API_URL + this.url)
+          .then((dataResponse) => {
+            console.log("List: ", dataResponse);
+            this.handleData(dataResponse);
+
+            // If there are more records to fetch, then start observing the loadMore-intObsrv-trigger.
+            if (!this.isIntersectionObserverFired) {
+              this.initLoadMoreIntersectionObserver();
+              this.isIntersectionObserverFired = true;
+            }
+          });
+      },
+      initLoadMoreIntersectionObserver() {
+        // console.log("bus = ", bus);
+
+        this.observer = new IntersectionObserver((entries) => {
+          if (entries[0].intersectionRatio <= 0) { // If not in view
+            //                console.log("Load more is not in view. " + "#" + this.observerElement);
+          } else {
+            //                console.log("Load more is in view. " + "#" + this.observerElement);
+            // observer.unobserve(document.getElementById(observerElement));
+
+            // Increment the current page number
+            this.pageNumber += 1;
+            this.getList();
+          }
+        },
+          {
+            root: null,
+            rootMargin: '0px'
+          });
+
+        setTimeout(() => {
+          this.observer.observe(document.getElementById(this.observerElement));
+        }, 1000);
+      },
+      getUnpaginatedList(listKey, url) {
+        //        console.log("Mixin : Retrieving data from : " + url);
+
+        try {
+          // VueJS ajax call-1
+          axios.get(process.env.VUE_APP_API_URL + url)
+            .then((dataResponse) => {
+              //                  console.log("List: " , dataResponse);
+              this.handleUnpaginatedListData(listKey, dataResponse);
+            })
+            .catch((error) => {
+              this.handleUnpaginatedListDataError(error);
+            });
+        } catch (error) {
+          this.handleUnpaginatedListDataError(error);
         }
+      },
+      initListLib() {
+        console.log('List lib initiated.');
+      }
     },
     created: function() {
 

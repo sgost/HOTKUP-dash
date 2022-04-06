@@ -42,7 +42,13 @@ module.exports = {
     indent: 'off',
     quotes: 'off',
     'padded-blocks': 'off',
-    'dot-notation': 'off'
+    'dot-notation': 'off',
+    'space-before-function-paren': 'off',
+    'key-spacing': 'off',
+    'space-before-blocks': 'off',
+    'semi': 'off',
+    'object-curly-spacing': 'off',
+    'spaced-comment': 'off'
 
   }
 };
