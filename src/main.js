@@ -55,6 +55,7 @@ import ChatBook from './app/modules/chat/chat-book.vue';
 import ChatPage from './app/modules/chat/chat-page.vue';
 import Calendar from './app/modules/calendar/calendar.vue';
 import User from './app/modules/user/user.vue';
+import AdminDashboard from './app/modules/user/admin-dashboard.vue';
 
 
 import UserList from './app/modules/user/list-pane.vue';
@@ -138,6 +139,7 @@ app.component('notification-subscription-form', NotificationSubscriptionForm);
 app.component('chat-book', ChatBook);
 app.component('chat-page', ChatPage);
 app.component('User', User);
+app.component('AdminDashboard', AdminDashboard);
 
 app.component('UserList', UserList);
 app.component('new-user-form', UserNewForm);

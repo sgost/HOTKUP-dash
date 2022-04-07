@@ -72,6 +72,21 @@
     letter-spacing: 1px;
     background: #f3f3f3;
     margin: 10px 0;
+   }
+   .btn {
+    background-color: rgb(0, 119, 255);
+    border-radius: 3px;
+    place-self: center;
+    place-items: center;
+    min-width: 100px;
+    font-size: 0.65rem;
+    line-height: 30px;
+    font-weight: normal !important;
+    border: none;
+    outline: none;
+    color: white;
+    width: 100%;
+    cursor: pointer;
 }
 </style>
 
@@ -83,14 +98,18 @@
           <div vv-if="loggedInUser.isInformationFetchComplete" id="appSideMenuContent" class="app-side-menu-content">
             <div class="uk-offcanvas-bar0 custom-scroll-bar side-bar-light" style="flex-grow:1;padding-top:50px">
                 <ul class="uk-nav uk-nav-default">
+                  <button class="btn" v-on:click="loadMySettingsMenu('admin_dashboard')">ADMIN DASHBOARD</button>
+                <li v-if="hasAdminRoles" class="menu-item" style="margin-top:20px">
+                      <hr>
+                    </li>
                   <li class="uk-nav-header">SYSTEM SETTINGS</li>
                     <li class="menu-item uk-active selected-menu" id="rtasks_settings_menu" >
-                      <a v-on:click="loadMySettingsMenu('rtasks_settings_menu')" uk-tooltip="title:Configure Recurring Tasks;pos:right">
+                      <a v-on:click="loadMySettingsMenu('rtasks_settings_menu')" uk-tooltip="title:Admin;pos:right">
                         Admin
                       </a>
                     </li>
                     <li class="menu-item" id="ui_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('ui_settings_menu')" uk-tooltip="title:Configure UI Settings;pos:right">
+                      <a v-on:click="loadMySettingsMenu('ui_settings_menu')" uk-tooltip="title:Groups;pos:right">
                         Groups
                       </a>
                     </li>
@@ -104,38 +123,34 @@
                     </li>-->
                     <li class="uk-nav-header">TASK SETTINGS</li>
                     <li class="menu-item" id="notifications_settings_menu" >
-                      <a v-on:click="loadMySettingsMenu('notifications_settings_menu')" uk-tooltip="title:Configure Notification preferences;pos:right">
+                      <a v-on:click="loadMySettingsMenu('notifications_settings_menu')" uk-tooltip="title:Default Task Stages;pos:right">
                        Default Task Stages
                       </a>
                     </li>
                     <li class="menu-item" id="chat_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Chat Settings;pos:right">
+                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Categories;pos:right">
                        Categories
                       </a>
                     </li>
                     <li class="menu-item" id="chat_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Chat Settings;pos:right">
+                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Workgroups;pos:right">
                        Workgroups
                       </a>
                     </li>
                     <li class="menu-item" id="chat_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Chat Settings;pos:right">
+                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="Forms;pos:right">
                        Forms
                       </a>
                     </li>
                     <li class="menu-item" id="chat_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Chat Settings;pos:right">
+                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Tabular Forms;pos:right">
                        Tabular Forms
                       </a>
                     </li>
                      <li class="menu-item" id="chat_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Chat Settings;pos:right">
+                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Global Entities ?;pos:right">
                       Global Entities ?
                       </a>
-                    </li>
-
-                    <li v-if="hasAdminRoles" class="menu-item" style="margin-top:20px">
-                      <hr>
                     </li>
 
                 </ul>
@@ -146,10 +161,8 @@
     </div>
     <div style="display: flex;width: 100%;flex-grow: 1;">
         <div style="margin:13px 13px 0px 13px;display: flex;width: 100%;flex-grow: 1;">
-            <div v-if="chosenView === 'ui_settings_menu'" style="display: flex;width: 100%;flex-direction: column;">
-                <div>UI Settings</div>
-                <div><hr></div>
-                <div>Coming soon..</div>
+            <div v-if="chosenView === 'admin_dashboard'" style="display: flex;width: 100%;flex-direction: column;">
+              <AdminDashboard/>
             </div>
             <div v-else-if="chosenView === 'notifications_settings_menu'" style="display: flex;width: 100%;flex-direction: column;">
                 <div>Notification Settings</div>
