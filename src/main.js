@@ -54,13 +54,42 @@ import TaskViewFormsTab from './app/modules/task/task-forms-tab.vue';
 import ChatBook from './app/modules/chat/chat-book.vue';
 import ChatPage from './app/modules/chat/chat-page.vue';
 import Calendar from './app/modules/calendar/calendar.vue';
+
+
 import User from './app/modules/user/user.vue';
-import AdminDashboard from './app/modules/user/admin-dashboard.vue';
-
-
 import UserList from './app/modules/user/list-pane.vue';
 import UserNewForm from './app/modules/user/new-form.vue';
 import UserEditForm from './app/modules/user/edit-form.vue';
+import AdminDashboard from './app/modules/user/admin-dashboard.vue';
+
+
+import EditGroupForm from './app/modules/groups/edit-form.vue';
+import NewGroupForm from './app/modules/groups/new-form.vue';
+import GroupListPane from './app/modules/groups/list-pane.vue';
+
+
+import CatogeryListPane from './app/modules/categories/categories-list-pane.vue';
+import CatogeryList from './app/modules/categories/categories-list.vue';
+import CatogeryEditForm from './app/modules/categories/edit-category-form.vue';
+import CatogeryEditFormLagging from './app/modules/categories/new-category-form-lagging-bug.vue';
+import CatogeryForm from './app/modules/categories/new-category-form.vue';
+
+
+
+import FormList from './app/modules/forms/list-pane.vue';
+import FormEdit from './app/modules/forms/edit-form-maker.vue';
+import FormNewMaker from './app/modules/forms/new-form-maker.vue';
+
+
+
+import TabularList from './app/modules/tabular-forms/list-pane.vue';
+import TabularNewForm from './app/modules/tabular-forms/new-form-maker.vue';
+import TabularNewEdit from './app/modules/tabular-forms/edit-form-maker.vue';
+
+
+import WorkFroupList from './app/modules/workgroups/list-pane.vue';
+import WorkFroupNewForm from './app/modules/workgroups/new-form.vue';
+import WorkFroupNewEdit from './app/modules/workgroups/edit-form.vue';
 
 
 
@@ -141,9 +170,38 @@ app.component('chat-page', ChatPage);
 app.component('User', User);
 app.component('AdminDashboard', AdminDashboard);
 
+
+app.component('edit-group-form', EditGroupForm);
+app.component('new-group-form', NewGroupForm);
+app.component('GroupListPane', GroupListPane);
+
 app.component('UserList', UserList);
 app.component('new-user-form', UserNewForm);
 app.component('edit-user-form', UserEditForm);
+
+
+
+app.component('CatogeryListPane', CatogeryListPane);
+app.component('CatogeryList', CatogeryList);
+app.component('edit-category-form', CatogeryEditForm);
+app.component('CatogeryEditFormLagging', CatogeryEditFormLagging);
+app.component('new-category-form', CatogeryForm);
+
+
+
+app.component('FormList', FormList);
+app.component('edit-form-maker', FormEdit);
+app.component('new-form-maker', FormNewMaker);
+
+
+app.component('TabularList', TabularList);
+app.component('new-tabular-form-maker', TabularNewForm);
+app.component('edit-tabular-form-maker', TabularNewEdit);
+
+
+app.component('WorkFroupList', WorkFroupList);
+app.component('new-workgroup-form', WorkFroupNewForm);
+app.component('edit-workgroup-form', WorkFroupNewEdit);
 
 // app.component('vue-textarea', TextAreaComponent);
 

@@ -105,11 +105,11 @@
                   <li class="uk-nav-header">SYSTEM SETTINGS</li>
                     <li class="menu-item uk-active selected-menu" id="rtasks_settings_menu" >
                       <a v-on:click="loadMySettingsMenu('rtasks_settings_menu')" uk-tooltip="title:Admin;pos:right">
-                        Admin
+                        Users
                       </a>
                     </li>
-                    <li class="menu-item" id="ui_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('ui_settings_menu')" uk-tooltip="title:Groups;pos:right">
+                    <li class="menu-item" id="ui_group_menu">
+                      <a v-on:click="loadMySettingsMenu('ui_group_menu')" uk-tooltip="title:Groups;pos:right">
                         Groups
                       </a>
                     </li>
@@ -127,23 +127,23 @@
                        Default Task Stages
                       </a>
                     </li>
-                    <li class="menu-item" id="chat_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Categories;pos:right">
+                    <li class="menu-item" id="categories_menu_item">
+                      <a v-on:click="loadMySettingsMenu('categories_menu_item')"  uk-tooltip="title:Categories;pos:right">
                        Categories
                       </a>
                     </li>
-                    <li class="menu-item" id="chat_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Workgroups;pos:right">
+                    <li class="menu-item" id="work_groups">
+                      <a v-on:click="loadMySettingsMenu('work_groups')"  uk-tooltip="title:Workgroups;pos:right">
                        Workgroups
                       </a>
                     </li>
-                    <li class="menu-item" id="chat_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="Forms;pos:right">
+                    <li class="menu-item" id="categories_menu_forms">
+                      <a v-on:click="loadMySettingsMenu('categories_menu_forms')"  uk-tooltip="title:Forms;pos:right">
                        Forms
                       </a>
                     </li>
-                    <li class="menu-item" id="chat_settings_menu">
-                      <a v-on:click="loadMySettingsMenu('chat_settings_menu')"  uk-tooltip="title:Tabular Forms;pos:right">
+                    <li class="menu-item" id="tabular_forms">
+                      <a v-on:click="loadMySettingsMenu('tabular_forms')"  uk-tooltip="title:Tabular Forms;pos:right">
                        Tabular Forms
                       </a>
                     </li>
@@ -164,12 +164,10 @@
             <div v-if="chosenView === 'admin_dashboard'" style="display: flex;width: 100%;flex-direction: column;">
               <AdminDashboard/>
             </div>
-            <div v-else-if="chosenView === 'notifications_settings_menu'" style="display: flex;width: 100%;flex-direction: column;">
-                <div>Notification Settings</div>
-                <div><hr></div>
-                <div>Coming soon..</div>
+            <div v-if="chosenView === 'ui_group_menu'" style="display: flex;width: 100%;flex-direction: column;">
+                <GroupListPane/>
             </div>
-            <div v-else-if="chosenView === 'rtasks_settings_menu'" style="display: flex;width: 100%;flex-direction: column;">
+            <div v-if="chosenView === 'rtasks_settings_menu'" style="display: flex;width: 100%;flex-direction: column;">
                 <UserList/>
                 <div>
 
@@ -201,10 +199,17 @@
                   </div>
                 </div>
             </div>
-            <div v-else-if="chosenView === 'chat_settings_menu'" style="display: flex;width: 100%;flex-direction: column;">
-                <div>Chat Settings</div>
-                <div><hr></div>
-                <div>Coming soon..</div>
+            <div v-else-if="chosenView === 'categories_menu_item'" style="display: flex;width: 100%;flex-direction: column;">
+              <CatogeryListPane/>
+            </div>
+            <div v-else-if="chosenView === 'tabular_forms'" style="display: flex;width: 100%;flex-direction: column;">
+              <TabularList/>
+            </div>
+            <div v-else-if="chosenView === 'work_groups'" style="display: flex;width: 100%;flex-direction: column;">
+              <WorkFroupList/>
+            </div>
+            <div v-else-if="chosenView === 'categories_menu_forms'" style="display: flex;width: 100%;flex-direction: column;">
+              <FormList/>
             </div>
         </div>
     </div>
