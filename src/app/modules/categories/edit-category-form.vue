@@ -180,18 +180,12 @@
           <ul  id="switcherTabs" class="uk-subnav uk-subnav-pill tab-bar" uk-switcher style="user-select: none;">
             <li uk-tooltip="title:Basic Category Info;pos:bottom">
               <a >
-                <span class="tab_icon">
-                  <ui-icon name="description" size="width:15px;height:15px"/>
-                </span>
                 <span class="">Basic Category Settings</span>
               </a>
             </li>
             <li uk-tooltip="title:Advanced Category Info;pos:bottom" v-on:click="openAdvancedSettings()">
               <a >
-                <span class="tab_icon">
-                  <ui-icon name="hooks" size="width:14px;height:14px"/>
-                </span>
-                <span class="tab_label">Advanced Settings</span>
+                <span class="">Advanced Settings</span>
               </a>
             </li>
           </ul>

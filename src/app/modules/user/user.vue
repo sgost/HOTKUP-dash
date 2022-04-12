@@ -122,8 +122,8 @@
                       </a>
                     </li>-->
                     <li class="uk-nav-header">TASK SETTINGS</li>
-                    <li class="menu-item" id="notifications_settings_menu" >
-                      <a v-on:click="loadMySettingsMenu('notifications_settings_menu')" uk-tooltip="title:Default Task Stages;pos:right">
+                    <li class="menu-item" id="task_menu" >
+                      <a v-on:click="loadMySettingsMenu('task_menu')" uk-tooltip="title:Default Task Stages;pos:right">
                        Default Task Stages
                       </a>
                     </li>
@@ -169,35 +169,9 @@
             </div>
             <div v-if="chosenView === 'rtasks_settings_menu'" style="display: flex;width: 100%;flex-direction: column;">
                 <UserList/>
-                <div>
-
-                  <div  v-show="recurringTasks.length>0"  class="depedencytask_row" style="background: #f2f2f2;border: 1px solid transparent;border-bottom: 0px;text-transform: uppercase;font-size: 0.55rem;">
-                      <div style=";justify-self: end;">Task No.</div>
-                      <div >Title</div>
-                      <div  style="color: rgb(51, 51, 51);">Created On</div>
-                      <div  style="color: rgb(51, 51, 51);">Next Fire Time</div>
-                      <div  style="color: rgb(51, 51, 51);">Options</div>
-                  </div>
-                  <div v-show="recurringTasks.length>0"  class="subtasks_box">
-                      <template v-for="rTask in recurringTasks">
-                          <div class="depedencytask_row">
-                            <div style="font-weight:normal;justify-self: end;">
-                              <a v-on:click="viewTask(rTask.id)">#{{rTask.sno}}</a>
-                            </div>
-                            <div v-on:click="viewTask(rTask.id)" style="cursor:pointer">{{rTask.name}} {{rTask.state}}</div>
-                            <div style="color:#333">{{rTask.createdOnFormatted}}</div>
-                            <div>
-                                {{rTask.nextFireTimeFormatted}} <span style="margin-left:10px;padding-left:5px;color: rgb(46, 166, 253);text-transform: none;font-size: 0.6rem;letter-spacing: 0.5px;">({{rTask.nextFireTimeAgo}})</span>
-                            </div>
-                            <div>
-                              <span v-if="rTask.state === 'ENABLED' || rTask.state === null"><a v-on:click="disableRTask(rTask.id)">Disable</a> | <a v-on:click="cancelRTask(rTask.id)">Cancel</a></span>
-                              <span v-else-if="rTask.state === 'DISABLED'"><a v-on:click="enableRTask(rTask.id)">Enable</a> | <a v-on:click="cancelRTask(rTask.id)">Cancel</a></span>
-                              <span v-else-if="rTask.state === 'CANCELLED'">Cancelled</span>
-                            </div>
-                          </div>
-                      </template>
-                  </div>
-                </div>
+            </div>
+            <div v-else-if="chosenView === 'task_menu'" style="display: flex;width: 100%;flex-direction: column;">
+              <StatuseList/>
             </div>
             <div v-else-if="chosenView === 'categories_menu_item'" style="display: flex;width: 100%;flex-direction: column;">
               <CatogeryListPane/>
@@ -206,7 +180,7 @@
               <TabularList/>
             </div>
             <div v-else-if="chosenView === 'work_groups'" style="display: flex;width: 100%;flex-direction: column;">
-              <WorkFroupList/>
+              <WorkGroupList/>
             </div>
             <div v-else-if="chosenView === 'categories_menu_forms'" style="display: flex;width: 100%;flex-direction: column;">
               <FormList/>

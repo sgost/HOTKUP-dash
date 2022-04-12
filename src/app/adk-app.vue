@@ -203,7 +203,7 @@
                           <div style="transform: scale(0.85);border: 3px solid rgb(230 230 230);background: rgb(234 234 234);border-radius: 50%;position: relative;padding:7px;display: flex;">
                             <span uk-icon="cog" class="uk-icon" style="transform: scale(0.75);"></span>
                           </div>
-                          <div style="transform: scale(0.85);text-transform: uppercase;font-size: 0.45rem;letter-spacing: 1px;text-align: center;">User</div>
+                          <div style="transform: scale(0.85);text-transform: uppercase;font-size: 0.45rem;letter-spacing: 1px;text-align: center;">Admin</div>
                       </div>
 
                       <!--

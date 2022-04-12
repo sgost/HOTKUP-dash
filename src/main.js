@@ -87,9 +87,14 @@ import TabularNewForm from './app/modules/tabular-forms/new-form-maker.vue';
 import TabularNewEdit from './app/modules/tabular-forms/edit-form-maker.vue';
 
 
-import WorkFroupList from './app/modules/workgroups/list-pane.vue';
-import WorkFroupNewForm from './app/modules/workgroups/new-form.vue';
-import WorkFroupNewEdit from './app/modules/workgroups/edit-form.vue';
+import WorkGroupList from './app/modules/workgroups/list-pane.vue';
+import WorkGroupNewForm from './app/modules/workgroups/new-form.vue';
+import WorkGroupNewEdit from './app/modules/workgroups/edit-form.vue';
+
+
+import StatuseList from './app/modules/statuses/list-pane.vue';
+import StatuseNewForm from './app/modules/statuses/new-form.vue';
+import StatuseNewEdit from './app/modules/statuses/edit-form.vue';
 
 
 
@@ -199,9 +204,15 @@ app.component('new-tabular-form-maker', TabularNewForm);
 app.component('edit-tabular-form-maker', TabularNewEdit);
 
 
-app.component('WorkFroupList', WorkFroupList);
-app.component('new-workgroup-form', WorkFroupNewForm);
-app.component('edit-workgroup-form', WorkFroupNewEdit);
+app.component('WorkGroupList', WorkGroupList);
+app.component('new-workgroup-form', WorkGroupNewForm);
+app.component('edit-workgroup-form', WorkGroupNewEdit);
+
+
+
+app.component('StatuseList', StatuseList);
+app.component('new-status-form', StatuseNewForm);
+app.component('edit-status-form', StatuseNewEdit);
 
 // app.component('vue-textarea', TextAreaComponent);
 
