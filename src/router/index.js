@@ -39,6 +39,10 @@ import Calendar from './../app/modules/calendar/calendar.vue';
 import ComponentA from './../app/modules/test/component-a.vue';
 import ComponentB from './../app/modules/test/component-b.vue';
 
+
+
+import UserList from './../app/modules/user/list-pane.vue';
+
 // import TaskInboxPrivate from './../app/wireframes/task-inbox-private.vue';
 // import TaskCreate from './../app/task-create.vue';
 // import PrivateTaskCreate from './../app/wireframes/task-create-private.vue';
@@ -86,6 +90,12 @@ const routes = [
     name: 'view-task-inbox-specific-task',
     component: TaskInbox
   },
+  {
+    path: '/users/list/',
+    name: 'UserList',
+    component: UserList
+  },
+
   // {
   //   path: '/task/new/',
   //   name: 'create-new-task',
