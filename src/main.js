@@ -97,6 +97,7 @@ import StatuseNewForm from './app/modules/statuses/new-form.vue';
 import StatuseNewEdit from './app/modules/statuses/edit-form.vue';
 
 
+import ActivityFormTab from './app/modules/task/activity-form-tab.vue';
 
 import ComponentA from './app/modules/test/component-a.vue';
 import ComponentB from './app/modules/test/component-b.vue';
@@ -213,6 +214,8 @@ app.component('edit-workgroup-form', WorkGroupNewEdit);
 app.component('StatuseList', StatuseList);
 app.component('new-status-form', StatuseNewForm);
 app.component('edit-status-form', StatuseNewEdit);
+
+app.component('activity-form-tab', ActivityFormTab);
 
 // app.component('vue-textarea', TextAreaComponent);
 

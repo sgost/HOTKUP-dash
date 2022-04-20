@@ -555,7 +555,7 @@
                />
               <div v-show="selectedTabKey==='forms'" style="flex-grow: 1; overflow-y: hidden; position: relative; background: rgba(255, 255, 255, 0.75); display: flex; flex-direction: column;">
                   <div v-if="isFormsTabInitialized" style="display: grid;padding: 10px;padding-top: 15px;margin-right: 20px;overflow-y: scroll;">
-                      <task-forms-tab v-bind:loggedInUser="loggedInUser" v-bind:taskSNO="'Task #' + taskObject.sno"  v-bind:id="taskObject.id" v-bind:assignees="availableMembers"/>
+                      <task-forms-tab v-bind:loggedInUser="loggedInUser" v-bind:taskSNO="'Task #' + taskObject.sno"  v-bind:id="taskObject.id" v-bind:assignees="availableMembers" formID="61893f1c8a54ae36594e9c43"/>
                   </div>
               </div>
 
@@ -2378,6 +2378,7 @@
     }
   },
   mounted: function () {
+
     console.log('################ task-view.vue ################' + this.embeddingViewName);
 
     bus.off("reload_task_details");
@@ -2472,7 +2473,7 @@
     //     console.log("id changed from " + oldTask.id + " to " + newTask.id);
     //     this.taskObject = newTask;
     //     //this.getRecord();
-    // },
+    // },                                                 
     'loggedInUser.userId' (newVal, oldVal) {
         console.log(this.loggedInUser.userId);
     },

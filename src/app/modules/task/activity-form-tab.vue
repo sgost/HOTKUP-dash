@@ -1,114 +1,8 @@
 <template>
 
-    <div style="padding: 5px 0px;margin-right:20px;margin-bottom: 10px;display: grid;grid-template-rows: 1fr;place-items: start;border-bottom: 1px solid #d0d0d0;">
-        <button v-on:click="openFormTemplateAttachmentModal()"  class="clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button" style="background-color:#2196f3;border-radius: 3px;min-width: 100px;font-size: 0.65rem;line-height: 30px;font-weight: normal !important;display: inline-block;">
-            <span uk-icon="icon:plus;ratio:0.65" class="uk-icon" style="">
-              <svg width="13" height="13" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="plus">
-                <rect x="9" y="1" width="1" height="17"></rect>
-                <rect x="1" y="9" width="17" height="1"></rect>
-              </svg>
-            </span>
-            <span style="padding-left: 10px;">Attach Form</span>
-        </button>
-    </div>
-
     <div>
-      <div v-show="attachedForms.length==0" style="text-align:center;border-bottom: 0px;"> No forms added </div>
-        <div  v-show="attachedForms.length>0"  class="attachedFormTemplate_row" style="background: #f2f2f2;border: 1px solid transparent;border-bottom: 0px;text-transform: uppercase;font-size: 0.55rem;">
-            <div  style=";justify-self: end;flex-basis: 25%;">Form Name</div>
-            <div  style="color: rgb(51, 51, 51);flex-basis: 15%;">Attached on</div>
-            <div  style="color: rgb(51, 51, 51);flex-basis: 15%;">Attached by</div>
-            <div  style="color: rgb(51, 51, 51);flex-basis: 15%;">Assigned to</div>
-            <div  style="color: rgb(51, 51, 51);flex-basis: 15%;">Status</div>
-            <div  style="color: rgb(51, 51, 51);flex-basis: 15%;">Actions</div>
-        </div>
-        <div v-show="attachedForms.length>0"  class="activity_box" style="width: 100%;box-sizing: border-box;margin-left: 0px;margin-right: 0px;flex-direction: column;">
-
-            <template v-for="attachedFormTemplate in attachedForms">
-
-                <div class="attachedFormTemplate_row" >
-                  <div style="font-weight:normal;flex-basis: 25%;" >
-                    <a v-if="attachedFormTemplate.formStatus!=='Submitted'" uk-tooltip="Edit Form Attachment" v-on:click="openFormTemplateAttachmentModalForModification(attachedFormTemplate, attachedFormTemplate.formTemplateId, attachedFormTemplate.formTemplateName)">
-                      {{attachedFormTemplate.formTemplateName}}
-                    </a>
-                    <div v-else-if="attachedFormTemplate.formStatus==='Submitted'" style="" uk-tooltip="This form is submitted and hence cannot be edited.">
-                      <span uk-icon="icon:check;ratio:0.65" style="color:green"></span> &nbsp;
-                      <span>{{attachedFormTemplate.formTemplateName}}</span>
-                    </div>
-                    <div style="margin-top: 5px;">
-                      <span v-if="attachedFormTemplate.stageName !== null" style="margin-left: 0px;background: rgb(227, 227, 227);padding: 3px 5px 3px 3px;border-radius: 4px;font-size: 0.45rem;text-transform: uppercase;letter-spacing: 1px;">Stage - {{attachedFormTemplate.stageName}}</span>
-                    </div>
-                  </div>
-                  <div style="color:#333;flex-basis: 15%;">{{attachedFormTemplate.createdOn}}</div>
-                  <div style="color:#333;flex-basis: 15%;"><span v-if="attachedFormTemplate.attachedByInfo!==undefined && attachedFormTemplate.attachedByInfo!==null">{{attachedFormTemplate.attachedByInfo.split("#")[1]}}</span></div>
-                  <div style="color:#333;flex-basis: 15%;">
-                    <span v-if="attachedFormTemplate.assigneeInfo!==undefined && attachedFormTemplate.assigneeInfo!==null && attachedFormTemplate.assigneeInfo!=='any'">{{attachedFormTemplate.assigneeInfo.split("#")[1]}}</span>
-                    <span v-if="attachedFormTemplate.assigneeInfo!==undefined && attachedFormTemplate.assigneeInfo!==null && attachedFormTemplate.assigneeInfo==='any'">Any</span>
-                  </div>
-                  <div style="flex-basis: 15%;">
-                      <span v-if="attachedFormTemplate.formStatus=='In progress'" style="color: rgb(46 166 253);text-transform: uppercase;font-size: 0.6rem;letter-spacing: 0.5px;">Pending</span>
-                      <span v-else-if="attachedFormTemplate.formStatus=='Submitted'" style="color: rgb(63 183 34);text-transform: uppercase;font-size: 0.6rem;letter-spacing: 0.5px;font-weight: bold;">{{attachedFormTemplate.formStatus}}</span>
-                  </div>
-                  <div v-if="!attachedFormTemplate.isTabularForm" style="display:flex;column-gap:5px;flex-basis: 15%;">
-                      <div uk-tooltip="Click to view Form" v-show="attachedFormTemplate.formStatus!=='Submitted'" v-on:click="viewForm(attachedFormTemplate.id, attachedFormTemplate.formTemplateId, attachedFormTemplate.formTemplateName, attachedFormTemplate, false )"><a>Submit Form</a></div>
-                      <div uk-tooltip="Click to view Form Data" v-show="attachedFormTemplate.formStatus==='Submitted'" v-on:click="viewFormData(attachedFormTemplate.id, attachedFormTemplate.formTemplateId, attachedFormTemplate.formTemplateName, attachedFormTemplate )"><a>View Data</a></div>
-                      <!-- <div uk-tooltip="Download PDF" v-show="attachedFormTemplate.formStatus==='Submitted'" v-on:click="viewFormData(attachedFormTemplate.id, attachedFormTemplate.formTemplateId, attachedFormTemplate.formTemplateName, attachedFormTemplate )"> | <a><span uk-icon="icon:download;ratio:0.65"></span></a></div> -->
-                  </div>
-                  <div v-if="attachedFormTemplate.isTabularForm" style="display:flex;column-gap:5px;flex-basis: 15%;">
-                      <div uk-tooltip="Click to view Tabular Form" v-show="attachedFormTemplate.formStatus!=='Submitted'" v-on:click="viewForm(attachedFormTemplate.id, attachedFormTemplate.tabularFormTemplateId, attachedFormTemplate.formTemplateName, attachedFormTemplate, true )"><a>Submit Form</a></div>
-                      <div uk-tooltip="Click to view Tabular Form Data" v-show="attachedFormTemplate.formStatus==='Submitted'" v-on:click="viewTabularFormData(attachedFormTemplate.id, attachedFormTemplate.tabularFormTemplateId, attachedFormTemplate.formTemplateName, attachedFormTemplate )"><a>View Data</a></div>
-                      <!-- <div uk-tooltip="Download PDF" v-show="attachedFormTemplate.formStatus==='Submitted'" v-on:click="viewTabularFormData(attachedFormTemplate.id, attachedFormTemplate.tabularFormTemplateId, attachedFormTemplate.formTemplateName, attachedFormTemplate )"> | <a><span uk-icon="icon:download;ratio:0.65"></span></a></div> -->
-                  </div>
-                </div>
-
-            </template>
-        </div>
-
-      <div id="form-template-attachment-modal" class="uk-flex-top" uk-modal style="transition: 0.5s linear">
-          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical" style="min-width:70%;width:auto;font-size: 0.65rem;padding: 35px;">
-              <button class="uk-modal-close-default" type="button" uk-close></button>
-
-              <form style="width: 90%;margin-top: 15px;padding-top: 10px;padding-right: 30px;padding-left: 0px;margin-left: -15px;"
-                    class="uk-grid-small uk-grid ui-form" uk-grid onsubmit="return false;">
-                    <div class="uk-width-1-3@s uk-grid-margin uk-first-column ">
-                        <label class="uk-form-label" for="form-stacked-text">Form Template</label>
-                        <select tabindex="7" v-model="newFormTemplate.formTemplateInfo" class="uk-select" id="form-stacked-select">
-                            <optgroup label="Forms">
-                              <option v-for="formTemplate in formTemplatesList" v-bind:value="'form_#' + formTemplate.id + '#' + formTemplate.name">{{formTemplate.name}}</option>
-                            </optgroup>
-                            <optgroup label="Tabular Forms">
-                              <option v-for="formTemplate in tabularFormTemplatesList" v-bind:value="'tabular_form#' + formTemplate.id + '#' + formTemplate.name">{{formTemplate.name}}</option>
-                            </optgroup>
-                        </select>
-                    </div>
-                    <div class="uk-width-1-3@s uk-grid-margin uk-first-column ">
-                        <label class="uk-form-label" for="form-stacked-text">Assignee</label>
-                        <select tabindex="7" v-model="newFormTemplate.assigneeInfo" class="uk-select" id="form-stacked-select">
-                            <option value="any" selected="selected">Any</option>
-                            <option v-for="assignee in assignees" v-bind:value="assignee.id + '#' + assignee.firstName + ' ' + assignee.lastName">{{assignee.firstName}} {{assignee.lastName}}</option>
-                        </select>
-                    </div>
-
-                    <div style="display: flex;place-self:end;column-gap:20px;padding-right: 15px;">
-                        <button tabindex="11" id="attachFormTemplateButton" v-on:click="attachFormToThisTask()" class="clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button" style="background-color: #4caf50;border-radius: 3px;place-self: center;place-items: center;min-width: 125px;font-size: 0.65rem;line-height: 30px;font-weight: normal !important;margin-left: auto;">
-                        <div style="display: grid;grid-template-columns: auto auto;">
-                          <div>&nbsp;&nbsp;&nbsp;Attach Form</div>
-                        </div>
-                        </button>
-                        <button tabindex="11" id="discardButton" v-on:click="closeFormTemplateAttachmentModal()" class="clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button" data-v-2d9397b1="" style="background-color: rgb(234 234 234);border-radius: 3px;place-self: center;place-items: center;min-width: 125px;font-size: 0.65rem;line-height: 30px;font-weight: normal !important;margin-left: auto;margin-top: 0px;color: #565656;"><div><div >Discard</div></div></button>
-                    </div>
-
-              </form>
-          </div>
-      </div>
-
-      <div id="form-template-render-container-modal" class="uk-flex-top" uk-modal style="transition: 0.5s linear">
-          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical" style="min-width:70%;width:auto;font-size: 0.65rem;padding: 35px;border-radius: 3px;">
-              <button class="uk-modal-close-default" type="button" uk-close></button>
-
-              <div v-show="!isFormTemplateRendered" style="display:flex;align-items:center;justify-content:center"> Form is loading.. </div>
-              <div v-show="isFormTemplateRendered" class="form-container" style="background-color:#fff" id="form-container-for-printing">
-
+            <!-- Template Form -->
+           <div v-show="isFormTemplateRendered" class="form-container" style="background-color:#fff" id="form-container-for-printing">
                   <div class="ndropzone_row ndraggable_row" >
                     <div class="ndropzone" style="border-bottom: 1px solid #d4d4d4;margin-bottom: 10px;border-radius: 0px;">
                       <div class="ndraggable field text-input-element form-element" style="position:relative;">
@@ -134,14 +28,11 @@
                   <div class="ndropzone_row ndraggable_row hide-during-print" style="margin-top:10px;align-items: start;justify-content: start;">
                     <div class="ndropzone ndraggable field text-input-element form-element"  style="display: flex!important;place-self:end;column-gap:20px;padding-right: 15px;">
                         <button tabindex="10" id="formSubmitButton" v-on:click="submitFormAttachment()" class="clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button" style="background-color: rgb(76, 175, 80);border-radius: 3px;place-self: center;place-items: center;min-width: 125px;font-size: 0.65rem;line-height: 30px;font-weight: normal !important;color: white;">Submit</button>
-                        <button tabindex="11" id="discardFormDataButton" v-on:click="closeFormAttachmentModal()" class="clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button" style="background-color: rgb(234, 234, 234);border-radius: 3px;place-self: center;place-items: center;min-width: 125px;font-size: 0.65rem;line-height: 30px;font-weight: normal !important;margin-top: 0px;color: rgb(86, 86, 86);"><div><div >Close</div></div></button>
                     </div>
                   </div>
               </div>
-          </div>
-      </div>
 
-      <div id="tabular-form-template-render-container-modal" class="uk-flex-top" uk-modal style="">
+      <div id="tabular-form-template-render-container-modal" class="uk-flex-top" style="">
           <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical" style="transition: 0.5s linear;font-family:Nunito;min-width:70%;width:auto;font-size: 0.65rem;padding: 35px;border-radius: 3px;">
               <button class="uk-modal-close-default" type="button" uk-close></button>
 
@@ -353,7 +244,7 @@ export default {
     utilsMixinLib,
     uiListMixinLib
   ],
-  props: ['id', 'assignees', 'loggedInUser', 'taskSNO'],
+  props: ['id', 'assignees', 'loggedInUser', 'taskSNO', 'formID'],
   data: function () {
     return {
       isFormTemplateRendered: false,
@@ -1152,7 +1043,7 @@ export default {
     },
     viewFormData (attachmentId, formTemplateId, attachedFormTemplateName, attachedFormTemplate) {
       // currentFormToBeSubmitted.assigneeInfo.split("#")[1]
-
+      console.log(formTemplateId);
       this.currentFormToBeSubmitted = attachedFormTemplate;
 
 
@@ -1172,7 +1063,7 @@ export default {
       this.attachmentIdToBeEdited = attachmentId;
       this.attachmentFormTemplateIdToBeEdited = formTemplateId;
       this.attachmentFormTemplateNameToBeEdited = attachedFormTemplateName;
-      UIkit.modal(document.querySelector('#form-template-render-container-modal')).show();
+      // UIkit.modal(document.querySelector('#form-template-render-container-modal')).show();
       // this.getFormTemplateMetadata(formTemplateId);
 
       // API http://localhost:9090/task-form-attachments-data/get-by-attachment/600649f64a576b43899d0001
@@ -1488,6 +1379,7 @@ export default {
         });
     },
     viewForm (attachmentId, formTemplateId, attachedFormTemplateName, attachedFormTemplate, isTabularForm) {
+      
 
       this.currentFormToBeSubmitted = attachedFormTemplate;
       console.log("currentTaskID = ", this.id);
@@ -1541,7 +1433,7 @@ export default {
       this.chosenFormDataMap = {};
 
       if (!isTabularForm) {
-        UIkit.modal(document.querySelector('#form-template-render-container-modal')).show();
+        // UIkit.modal(document.querySelector('#form-template-render-container-modal')).show();
         this.getFormTemplateMetadata(formTemplateId);
       }
       else if (isTabularForm) {
@@ -1563,9 +1455,13 @@ export default {
     closeTabularFormDataRenderModal () {
       UIkit.modal(document.querySelector('#tabular-form-display-data-modal')).hide();
     },
+
+
     getFormTemplateMetadata (formTemplateId) {
+      
       alert(formTemplateId);
-            console.log('formTemplateId', formTemplateId);
+      console.log('formTemplateId', formTemplateId);
+
       const get_url = './task-form-templates/get/' + formTemplateId;
 
       axios.get(process.env.VUE_APP_API_URL + get_url)
@@ -1598,6 +1494,8 @@ export default {
           return false;
         });
     },
+
+
     getTabularFormTemplateMetadata (formTemplateId) {
 
       const tablePreviewDiv = document.querySelector('#tablePreview');
@@ -2032,22 +1930,12 @@ export default {
     }
   },
   mounted: function () {
-
-    this.fetchAllFormTemplates();
-    this.fetchAllTabularFormTemplates();
-    this.fetchFormTemplatesAttachedToTask();
-
-    // this.loadSubtasks();
-    console.log("Mounted task-info-form-tab.vue component for taskId = " + this.id);
-    // this.$store.commit('increment');
-    // this.storeCounter();
-    // console.log('Accessing vuex store ', this.$store)
-    // console.log('Store data accessed from home page : ' + this.$store.getters.count)
-    // console.log('Done.........................')
-
-    bus.on('refreshSubTasksList', (data) => {
-      this.fetchFormTemplatesAttachedToTask();
-    });
+    console.log('id', this.id);
+    console.log('assignees', this.assignees);
+    console.log('loggedInUser', this.loggedInUser);
+    console.log('taskSNO', this.taskSNO);
+    console.log('formID', this.formID);
+    this.getFormTemplateMetadata(this.formID);
   },
   unmounted: function () {
 

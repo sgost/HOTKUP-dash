@@ -487,6 +487,20 @@
                               </div>
                           </div>
 
+                          <div v-else-if="activity.type=='TASK_FORM_ATTACHED'">
+                              <div v-on:click="toggleActivityDetail($event)"  style="cursor:pointer;user-select:none;font-weight: normal;position: relative;min-height: 35px;display: flex;justify-content:flex-start;align-items: center;">
+                                <span style="font-weight: normal;color: #2196F3;">{{activity.createdBy.split("#")[0]}}</span> &nbsp; {{activity.typeLabel}}
+                                <span style="font-weight: normal;font-size: 0.55rem;;color: #b3b3b3;" v-bind:title="activity.createdOnFormatted">&nbsp; {{activity.createdOnAgo}}</span>
+                                <span v-bind:data-activity-id="activity.id"  class="openActivityDetailTrigger activity_detail_trigger"  style="user-select: none;" title="" aria-expanded="false">
+                                  <svg style="pointer-events: none;" width="17" height="17" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="chevron-up"><polyline fill="none" stroke="#000" stroke-width="1.03" points="16 7 10 13 4 7"></polyline></svg>
+                                </span>
+                              </div>
+                              <div v-if="activity.formAttachmentInfo!=null" class="activity_detail hide_activity_detail" style="gap: 7px 10px;margin-top: 15px;margin-bottom: 15px;background: white;border-radius: 0px;">
+                                <p>{{activity.formAttachmentInfo.id}}</p>
+                               <activity-form-tab v-bind:loggedInUser="'Vignesh'" v-bind:taskSNO="'Task #' + '147'"  v-bind:id="activity.formAttachmentInfo.id" v-bind:formID="activity.formAttachmentInfo.templateId"/>
+                              </div>
+                          </div>
+
                           <div v-if="activity.replies===null || activity.replies!==undefined" class="replyToTrigger" style="display:none;gap: 10px;position: absolute;right: -60px;top: 10px;">
                               <a v-on:click="openActivityCommentBox(activity.id)" style="color: gray;display: flex;align-items: center;justify-content: center;gap: 5px;">
                                 <span uk-tooltip="Reply to this activity" style="cursor: pointer;" title="" aria-expanded="false" >
@@ -2723,7 +2737,7 @@ export default {
     // console.log('Accessing vuex store ', this.$store)
     // console.log('Store data accessed from home page : ' + this.$store.getters.count)
     // console.log('Done.........................')
-
+    
     document.querySelectorAll(".activities_list")
             .forEach(list => {
               list.addEventListener("pointerdown", e => this.openContextMenu(e));
