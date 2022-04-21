@@ -495,10 +495,7 @@
                                   <svg style="pointer-events: none;" width="17" height="17" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="chevron-up"><polyline fill="none" stroke="#000" stroke-width="1.03" points="16 7 10 13 4 7"></polyline></svg>
                                 </span>
                               </div>
-                              <div v-if="activity.formAttachmentInfo!=null" class="activity_detail hide_activity_detail" style="gap: 7px 10px;margin-top: 15px;margin-bottom: 15px;background: white;border-radius: 0px;">
-                                <p>{{activity.formAttachmentInfo.id}}</p>
-                               <activity-form-tab v-bind:loggedInUser="'Vignesh'" v-bind:taskSNO="'Task #' + '147'"  v-bind:id="activity.formAttachmentInfo.id" v-bind:formID="activity.formAttachmentInfo.templateId"/>
-                              </div>
+                            <activity-form-tab v-bind:loggedInUser="'Vignesh'" v-bind:taskSNO="'Task #' + '147'"  v-bind:id="activity.formAttachmentInfo.id" v-bind:formID="activity.formAttachmentInfo.templateId"/>
                           </div>
 
                           <div v-if="activity.replies===null || activity.replies!==undefined" class="replyToTrigger" style="display:none;gap: 10px;position: absolute;right: -60px;top: 10px;">

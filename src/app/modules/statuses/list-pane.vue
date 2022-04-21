@@ -89,7 +89,7 @@
 
 <template>
 
-<div class="app_container" style="background-color: whitesmoke;grid-template-columns:1fr 2fr">
+<div class="app_container" style="background-color: whitesmoke;grid-template-columns:1fr 2fr; height: 100%">
     <div class="desktop pane_list_view" style="padding: 15px 15px 15px 15px; overflow-y: hidden; display: grid; background: rgb(242, 242, 242); color: rgb(51, 51, 51);">
 
         <div class="adk_grid_toolbar" style="grid-template-columns: auto 1fr;margin-right: 10px;">

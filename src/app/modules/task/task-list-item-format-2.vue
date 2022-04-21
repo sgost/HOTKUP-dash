@@ -38,7 +38,8 @@
                      v-on:click="handleClickEvents($event, item.sno)">
           <span uk-icon="icon:more-vertical;ratio:0.55;"></span>
         </div>
-      <teleport to=".chat_conversations_context_menus">
+        <!-- Alert of task ID passeng through components -->
+      <teleport to=".user_Id_popup">
       <div class="context-menu" id="chatConversationContextMenus">
           <div style="display: flex;flex-direction: column; width: 100%, font-size: 0.6rem;" id="popmenu_container">
             <div style="user-select:none" id="popmenu" class="context-menu-action-1" v-on:click="onContextMenuActionClick(item.sno)">User Id</div>

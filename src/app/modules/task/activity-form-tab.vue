@@ -2,7 +2,12 @@
 
     <div>
             <!-- Template Form -->
-           <div v-show="isFormTemplateRendered" class="form-container" style="background-color:#fff" id="form-container-for-printing">
+      <div id="form-template-render-container-modal" class="uk-flex-top" style="transition: 0.5s linear" v-if="showTemplate == 'form-template-render-container-modal'">
+          <div style="min-width:70%;width:auto;font-size: 0.65rem;padding: 35px;border-radius: 3px;">
+
+              <div v-show="!isFormTemplateRendered" style="display:flex;align-items:center;justify-content:center"> Form is loading.. </div>
+              <div v-show="isFormTemplateRendered" class="form-container" style="background-color:#fff" id="form-container-for-printing">
+
                   <div class="ndropzone_row ndraggable_row" >
                     <div class="ndropzone" style="border-bottom: 1px solid #d4d4d4;margin-bottom: 10px;border-radius: 0px;">
                       <div class="ndraggable field text-input-element form-element" style="position:relative;">
@@ -28,12 +33,15 @@
                   <div class="ndropzone_row ndraggable_row hide-during-print" style="margin-top:10px;align-items: start;justify-content: start;">
                     <div class="ndropzone ndraggable field text-input-element form-element"  style="display: flex!important;place-self:end;column-gap:20px;padding-right: 15px;">
                         <button tabindex="10" id="formSubmitButton" v-on:click="submitFormAttachment()" class="clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button" style="background-color: rgb(76, 175, 80);border-radius: 3px;place-self: center;place-items: center;min-width: 125px;font-size: 0.65rem;line-height: 30px;font-weight: normal !important;color: white;">Submit</button>
+                        <button tabindex="11" id="discardFormDataButton" v-on:click="closeFormAttachmentModal()" class="clickable-btn uk-button uk-button-danger uk-button-small uk-grid-margin uk-first-column end-call-button" style="background-color: rgb(234, 234, 234);border-radius: 3px;place-self: center;place-items: center;min-width: 125px;font-size: 0.65rem;line-height: 30px;font-weight: normal !important;margin-top: 0px;color: rgb(86, 86, 86);"><div><div >Close</div></div></button>
                     </div>
                   </div>
               </div>
+          </div>
+      </div>
 
-      <div id="tabular-form-template-render-container-modal" class="uk-flex-top" style="">
-          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical" style="transition: 0.5s linear;font-family:Nunito;min-width:70%;width:auto;font-size: 0.65rem;padding: 35px;border-radius: 3px;">
+      <div id="tabular-form-template-render-container-modal" class="uk-flex-top" style="" v-if="showTemplate == 'tabular-form-template-render-container-modal'">
+          <div style="transition: 0.5s linear;font-family:Nunito;min-width:70%;width:auto;font-size: 0.65rem;padding: 35px;border-radius: 3px;">
               <button class="uk-modal-close-default" type="button" uk-close></button>
 
               <div v-show="!isFormTemplateRendered" style="display:flex;align-items:center;justify-content:center"> Form is loading.. </div>
@@ -64,6 +72,7 @@
                       </div>
                     </div>
                   </div>
+
                   <div id="edit_tabular_form_template_container" style="display: flex;flex-direction: column;width: 100%;">
                       <!-- Here is where the form-template will be rendered -->
                       <div id="tablePreview" style="transition:0.25s linear">
@@ -117,7 +126,7 @@
               </div>
           </div>
       </div>
-      <div id="tabular-form-display-data-modal" class="uk-flex-top" uk-modal style="transition: 0.5s linear">
+      <div id="tabular-form-display-data-modal" class="uk-flex-top" uk-modal style="transition: 0.5s linear" v-if="showTemplate == 'tabular-form-display-data-modal'">
           <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical" style="font-family:Nunito;min-width:70%;width:auto;font-size: 0.65rem;padding: 35px;border-radius: 3px;">
               <button class="uk-modal-close-default" type="button" uk-close></button>
 
@@ -251,6 +260,7 @@ export default {
       newFormTemplate: {
         assigneeInfo: 'any'
       },
+      showTemplate:"",
       formTemplatesList: [],
       tabularFormTemplatesList: [],
       attachedForms: [],
@@ -1063,6 +1073,7 @@ export default {
       this.attachmentIdToBeEdited = attachmentId;
       this.attachmentFormTemplateIdToBeEdited = formTemplateId;
       this.attachmentFormTemplateNameToBeEdited = attachedFormTemplateName;
+      this.showTemplate = 'form-template-render-container-modal';
       // UIkit.modal(document.querySelector('#form-template-render-container-modal')).show();
       // this.getFormTemplateMetadata(formTemplateId);
 
@@ -1227,7 +1238,8 @@ export default {
       this.attachmentIdToBeEdited = attachmentId;
       this.attachmentFormTemplateIdToBeEdited = formTemplateId;
       this.attachmentFormTemplateNameToBeEdited = attachedFormTemplateName;
-      UIkit.modal(document.querySelector('#tabular-form-display-data-modal')).show();
+      this.showTemplate = 'tabular-form-display-data-modal';
+      // UIkit.modal(document.querySelector('#tabular-form-display-data-modal')).show();
       // this.getTabularFormTemplateMetadata(formTemplateId);
 
       // API http://localhost:9090/task-form-attachments-data/get-by-attachment/600649f64a576b43899d0001
@@ -1437,8 +1449,8 @@ export default {
         this.getFormTemplateMetadata(formTemplateId);
       }
       else if (isTabularForm) {
-
-        UIkit.modal(document.querySelector('#tabular-form-template-render-container-modal')).show();
+       this.showTemplate = 'tabular-form-template-render-container-modal';
+        // UIkit.modal(document.querySelector('#tabular-form-template-render-container-modal')).show();
         this.getTabularFormTemplateMetadata(formTemplateId);
       }
 
@@ -1458,8 +1470,8 @@ export default {
 
 
     getFormTemplateMetadata (formTemplateId) {
-      
-      alert(formTemplateId);
+      this.showTemplate = 'form-template-render-container-modal';
+      // alert(formTemplateId);
       console.log('formTemplateId', formTemplateId);
 
       const get_url = './task-form-templates/get/' + formTemplateId;
@@ -1930,11 +1942,6 @@ export default {
     }
   },
   mounted: function () {
-    console.log('id', this.id);
-    console.log('assignees', this.assignees);
-    console.log('loggedInUser', this.loggedInUser);
-    console.log('taskSNO', this.taskSNO);
-    console.log('formID', this.formID);
     this.getFormTemplateMetadata(this.formID);
   },
   unmounted: function () {

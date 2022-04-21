@@ -383,8 +383,9 @@
             </div> -->
 
             <div class="chat_conversations_context_menu"></div>
-            
-            <div class="chat_conversations_context_menus"></div>
+              <!-- Alert of task ID passeng through components from <task-list-item-format-2/> -->
+            <div class="user_Id_popup"></div>
+
             <div class="chat_msg_item_context_menu"></div>
       </div>
       <div id="loading_spinner" style="display: flex;opacity:1;transition:0.25s linear;position:absolute;top:0px;right:0px;left:0px;bottom:0px;align-items:center;justify-content:center;z-index: 2;">
